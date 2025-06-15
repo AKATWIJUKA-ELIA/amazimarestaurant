@@ -157,7 +157,7 @@ export default function CircularMotionCarousel() {
         {/* Navigation Controls */}
         <div className="absolute flex  flex-col bottom-72 left-1/2 transform  -translate-x-1/2  gap-16" >
                 <div className="flex flex-col mb-2 " >
-                        <h3 className="text-5xl font-extrabold">{truncateString(carouselItems[currentIndex].title,13)}</h3>
+                        <h3 className="text-5xl text-black/50 font-extrabold">{truncateString(carouselItems[currentIndex].title,13)}</h3>
                          <h3 className="text-2xl text-center font-light ">{carouselItems[currentIndex].price}</h3>
                 </div>
 
