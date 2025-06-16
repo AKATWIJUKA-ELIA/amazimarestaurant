@@ -6,7 +6,6 @@ import { BsList } from "react-icons/bs";
 import { VscAccount } from "react-icons/vsc";
 import { CiShoppingCart } from "react-icons/ci";
 // import DropDownMenu from '../DropDownMenu/page';
-// import ImageSearchModal from '../ImageSearchModal/page';
 import Link from 'next/link';
 import { useAppSelector } from '@/hooks';
 import { Input } from '../ui/input';
@@ -15,32 +14,31 @@ import { BiX } from 'react-icons/bi';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { usePathname } from 'next/navigation';
-import { MdPhotoCamera } from "react-icons/md";
-// import UserModel from '../UserModel/page';
+import { getCurrentUser } from '@/lib/actions';
+import { AppwriteUser } from '@/lib/types';
 // import {useData} from  '../../app/DataContext';
 // import useGenerateEmbeddings from '@/hooks/useGenerateEmbeddings';
 // import useVectorSearch from '@/hooks/useVectorSearch';
 
 const Header = () => {
-        const data:any[] = []
+        
         const cartitem = useAppSelector(state => state.cart.items);
-        const User = useAppSelector(state =>state.user.user)
+        const [User,setUser] = useState<AppwriteUser | null>(null);
         const Cart = cartitem?.reduce((total, item) => total + (item.quantity || 0), 0)
         const [Hovered,setHovered] = useState(false)
         const [sticky, setSticky] = useState(false);
         const [Focused, setFocused] = useState(false)
          const [showlowerBar, setshowlowerBar] = useState(true)
         const [searchTerm, setSearchTerm] = useState('');
-        const [showImageModal, setShowImageModal] = useState(false);
+        
         // const [filteredProducts, setFilteredProducts] = useState(data.Products.product || []);
         const [UserDrawer, setUserDrawer] = useState(false);
         
-        // console.log("Data from DataContext :",data.Products)
+        // console.log("Data from DataContext :",data)
         // const {Embed} = useGenerateEmbeddings();
         // const vectorSearchHook = useVectorSearch();
         // const vectorSearch = vectorSearchHook?.vectorSearch;
 
-        const [comingSoon, setcomingSoon] = useState(false)
         const carousel = Autoplay({ delay: 6000})
 
         const truncateString = (text: string, maxLength: number): string => {
@@ -48,13 +46,21 @@ const Header = () => {
               };
         const pathname = usePathname()
         useEffect(()=>{
-                if(pathname ==="/sign-up" || pathname === "/sign-in" || pathname === "/profile" || pathname.includes("administrator")){
+                if(pathname ==="/sign-up" || pathname === "/sign-in" || pathname==="/cart" || pathname === "/profile" || pathname.includes("administrator")){
                         setshowlowerBar(false)
                 }
                 else{
                         setshowlowerBar(true)
                 }
         },[pathname])
+        useEffect(() => {
+                const fetchUser = async () => {
+                        const user = await getCurrentUser();
+                        setUser(user ? user : null);
+                        console.log("User from Header :", user)
+                };
+                fetchUser();
+        }, []);
         // console.log(pathname)
         const showDropDownMenu=()=>{
                 setHovered(true)
@@ -66,16 +72,11 @@ const Header = () => {
                 setSearchTerm("")
                 setFocused(false)
                 forceBlur()
-                setShowImageModal(false)
                 setUserDrawer(false)
         }
-        const HandleComing = ()=>{
-                setcomingSoon(true)
-        }
+        
 
-        const handleImageSearch = () =>{
-                setShowImageModal(true)
-        }
+  
         // useEffect(() => {
         //         const results = data.Products.product?.filter((product) =>
         //           product.product_cartegory.toLowerCase().includes(searchTerm.toLowerCase())
@@ -180,24 +181,21 @@ const Header = () => {
                                 <div className='flex' >
                                         <div className="hidden lg:flex  bg-white hover:bg-gray-200 transition duration-100 border border-gray-300 rounded-3xl">
                                                 <div className='flex mt-1 font-sans dark:text-dark px-2 ' onClick={()=>setUserDrawer(true)} >
-                                                        {User.Username}
+                                                        <Link href="/profile" className='flex font-bold   ' >
+                                                        {User.name}
+                                                        </Link>
                                                 </div>
                                                 <div className='flex rounded-full' >
-                                                        <Image src={User.profilePicture?User.profilePicture:"/images/images.png"} width={35} height={35} alt='profile picture' className="rounded-full" />
+                                                        <Image src={"/images/images.png"} width={35} height={35} alt='profile picture' className="rounded-full" />
                                                 </div>
                                         </div>
                                         {/* For small screens */}
                                         <div className="flex lg:hidden ">
                                                 <Link href="/sign-in" className='flex ' >
-                                                 <Image src={User.profilePicture?User.profilePicture:"/images/images.png"} width={100} height={50} alt='profile picture' className="rounded-full" />
+                                                 <Image src={"/images/images.png"} width={100} height={50} alt='profile picture' className="rounded-full" />
                                                 </Link>
                                         </div>
 
-                                        <Link href="/profile" className='flex p-1'>
-                                        <button >
-                                        Dashboard
-                                        </button>
-                                        </Link>
                                 </div> ):(
                                 <div>
                                         <div className="hidden md:flex items-center gap-1">
@@ -250,7 +248,8 @@ const Header = () => {
                 
         <div className=' hidden md:flex items-center flex-nowrap gap-4 ' >
                 <div className=' gap-6  items-center text-2xl font-bold ' >
-                                <Link href="/menu">
+                                <Link href="/menu" className='flex gap-2 items-center ' >
+                                <BsList  />
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Our Menu</h1>
                                 </Link>
                                 
@@ -276,7 +275,7 @@ const Header = () => {
 
         
 <div className='hidden md:flex ml-5 gap-14'>
-  {data && data.length>0 ? (
+  {User  ? (
    <div>
 
    </div>
@@ -298,7 +297,7 @@ const Header = () => {
                         className="w-full max-w-full h-6 "
                         >
                         <CarouselContent className="w-full">
-                        { data ? (
+                        { User ? (
                                 <div></div>
                         ):(
                                 <div className='animate-pulse' />
