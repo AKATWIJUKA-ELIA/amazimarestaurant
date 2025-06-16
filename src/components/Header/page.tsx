@@ -16,12 +16,12 @@ import Autoplay from 'embla-carousel-autoplay';
 import { usePathname } from 'next/navigation';
 import { getCurrentUser } from '@/lib/actions';
 import { AppwriteUser } from '@/lib/types';
-// import {useData} from  '../../app/DataContext';
+import {useData} from  '../../app/DataContext';
 // import useGenerateEmbeddings from '@/hooks/useGenerateEmbeddings';
 // import useVectorSearch from '@/hooks/useVectorSearch';
 
 const Header = () => {
-        
+        const {setData} = useData();
         const cartitem = useAppSelector(state => state.cart.items);
         const [User,setUser] = useState<AppwriteUser | null>(null);
         const Cart = cartitem?.reduce((total, item) => total + (item.quantity || 0), 0)
@@ -57,6 +57,10 @@ const Header = () => {
                 const fetchUser = async () => {
                         const user = await getCurrentUser();
                         setUser(user ? user : null);
+                        setData((prevData) => ({
+                                ...prevData,
+                                user: user ? user : null
+                        }));
                         console.log("User from Header :", user)
                 };
                 fetchUser();

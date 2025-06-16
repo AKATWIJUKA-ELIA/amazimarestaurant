@@ -13,7 +13,7 @@ const Profile=()=> {
           setisOpen(prev => !prev);
         };
   return (
-    <div className=" mt-[8%]  px-5 mx-5 bg-gray-300" >
+    <div className=" mt-[8%]  p-5 mx-5 rounded-2xl bg-gray-300" >
         <AccountManagement />
     </div>
   )

@@ -1,11 +1,8 @@
 "use client"
 import React, { createContext, useContext, useState } from "react";
-
-interface user {
-  
-}
+import { AppwriteUser } from "@/lib/types";
 interface User{
-        User:user|null;
+        User:AppwriteUser|null;
 }
  
 
