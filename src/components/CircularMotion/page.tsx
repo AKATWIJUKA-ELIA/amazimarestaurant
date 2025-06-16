@@ -88,8 +88,8 @@ export default function CircularMotionCarousel() {
               };
 
   return (
-    <>
-    <div className="w-full -mt-24   flex ">
+    <div className="flex  " >
+        <div className=" ml-[25%] md:ml-[20%]  -mt-24 z-40  flex ">
       {/* Carousel Container */}
       <div className="  w-[40%] h-[250px] flex items-center justify-center ">
         {/* Central Hub */}
@@ -155,7 +155,7 @@ export default function CircularMotionCarousel() {
         </div>
 
         {/* Navigation Controls */}
-        <div className="absolute flex  flex-col bottom-72 left-1/2 transform  -translate-x-1/2  gap-16" >
+        <div className="absolute flex  flex-col bottom-6 md:bottom-72 left-1/2 transform  -translate-x-1/2 gap-6 md:gap-16" >
                 <div className="flex flex-col mb-2 " >
                         <h3 className="text-5xl text-black/50 font-extrabold">{truncateString(carouselItems[currentIndex].title,13)}</h3>
                          <h3 className="text-2xl text-center font-light ">{carouselItems[currentIndex].price}</h3>
@@ -206,8 +206,8 @@ export default function CircularMotionCarousel() {
 
     </div>
                 {/* Active Item Details */}
-      <div className="flex  bg-amber-500 shadow-2xl text-center  h-[50%] w-[35%] ml-[62%] rounded-bl-3xl rounded-tr-3xl mt-[9%]">
-        <Card className="w-full rounded-bl-3xl rounded-tr-3xl mx-auto">
+      <div className="hidden md:flex z-40  bg-amber-500 shadow-2xl text-center  h-[50%] w-[35%] ml-[48%] rounded-bl-3xl rounded-tr-3xl mt-[19%]">
+        <Card className="w-full  rounded-bl-3xl rounded-tr-3xl mx-auto">
                 <div>
                         <h1 className="font-bold text-2xl" >
                                 Product Details
@@ -225,6 +225,6 @@ export default function CircularMotionCarousel() {
           </CardContent>
         </Card>
       </div>
-    </>
+    </div>
   )
 }

@@ -126,19 +126,21 @@ const Header = () => {
         //         flex    border border-gray-300 
   return (
     <>
-    <div className={` fixed  top-0 left-0 z-40 flex flex-col py-3 w-full  bg-white/90 opacity-95 text-black gap-1 dark:bg-dark dark:text-white
+    <div className={` fixed  top-0 left-0 z-40 flex flex-col py-3 w-full  bg-white/70 opacity-95 text-black gap-1 dark:bg-dark dark:text-white
             ${sticky ? "bg-transparent  !fixed !z-[9999] ! bg-opacity-100 shadow-sticky backdrop-blur-lg fade-in !transition ": "absolute" }`
       }>
-        <div className='flex w-[100%] gap-18 ' >
-                <div className='flex gap-12 w-[60%]' >
-                        <div className='flex rounded-md ml-5'>
-                                <Link href="/">
-                                <Image className='rounded-md h-10' src="/images/Logo1.png" alt='logo' width='200' height="100">
+        <div className='flex w-[100%] gap-18  ' >
+                <div className='flex gap-6 md:ml-20   w-[70%] ' >
+                        <div className='flex rounded-md   md:w-[40%]'>
+                                <div className=' mx-auto  ' >
+                                        <Link href="/">
+                                <Image className='rounded-md h-16 w-64' src="/images/Logo1.png" alt='logo' width='200' height="100">
                                 </Image>
                                 </Link>
+                                </div>
                         </div>
 
-                        <div className='hidden md:flex w-[100%] p-auto '>
+                        <div className='hidden mt-2 md:flex w-[90%] p-auto '>
                                 <Input value={searchTerm}
                                 id='inputsearch'
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -146,35 +148,33 @@ const Header = () => {
                                  type="text"
                                   className=' flex p-5 h-10 rounded-full border   border-gray-500 w-[100%] dark:bg-black dark:text-white ' 
                                   placeholder='Search Categories & product names'  />
-                                  { searchTerm.length>1 ? (<BiX onClick={HandleClose} className="absolute hover:cursor-pointer border top-[16%] right-[41%]  bg-gray-100 text-dark text-3xl   rounded-lg"/>):(<MdPhotoCamera onClick={handleImageSearch}  className="absolute hover:cursor-pointer top-[16%]   right-[41%]  bg-gray-100 text-black/70 dark:text-white/70 dark:bg-transparent text-3xl " />)}
+                                  { searchTerm.length>1 && (<BiX onClick={HandleClose} className="absolute hover:cursor-pointer border top-[16%] right-[41%]  bg-gray-100 text-dark text-3xl   rounded-lg"/>)}
                         </div>
+
+                        <div className='hidden md:flex gap-6  items-center text-2xl font-bold ' >
+                                <Link href="/menu">
+                                        <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Take Away</h1>
+                                </Link>
+
+                                <Link href="/about">
+                                        <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis  ">Offers</h1>
+                                </Link>
+                                <Link href="/about">
+                                        <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis  ">About</h1>
+                                </Link>
+                        </div>
+
                 </div>
 
-                <div className='flex gap-4 md:gap-8 ml-10 '>
+                <div className='flex gap-8 ml-2 mr-4  md:ml-10  '>
                         <div className='flex gap-4  items-center ' >
-                        <div className='flex hover:cursor-pointer' onMouseEnter={HandleComing} onMouseLeave={()=>setcomingSoon(false)} > {comingSoon
+                        {/* <div className='flex hover:cursor-pointer' onMouseEnter={HandleComing} onMouseLeave={()=>setcomingSoon(false)} > {comingSoon
                         ?(<h1 className=" hidden md:flex whitespace-nowrap text-gold font-bold overflow-hidden text-ellipsis">Coming Soon</h1>)
                         :(<h1 className=" hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Mobile App</h1>)}
-                        </div>
-                        {/* <div className='flex hover:cursor-pointer ' >EN /UG.</div> */}
+                        </div> */}
+                       
                         </div>
                         <div className="flex items-center gap-2 py-1 hover:cursor-pointer">
-                        {/* <SignedIn>
-                        <div className="hidden lg:block bg-white rounded-3xl">
-                        <UserButton showName  />
-                        </div>
-
-                        For small screens
-                        <div className="block lg:hidden">
-                        <UserButton />
-                        </div>
-                        <Link href="/profile">
-                        <button >
-                        Dashboard
-                        </button>
-                        </Link>
-                        
-                        </SignedIn> */}
 
                         {User ? (
                                 <div className='flex' >
@@ -217,22 +217,6 @@ const Header = () => {
                                         </div>
                                 </div>
                         )}
-
-                        {/* <SignedOut>
-                        <div className="hidden md:flex items-center gap-1">
-                        <VscAccount className="text-2xl" />
-                        <SignInButton mode="modal"  />
-                        </div>
-                        <div className="flex md:hidden items-center gap-1">
-                        
-                        <SignInButton mode="modal"  >
-                        <button className="p-2 rounded bg-transparent ">
-                        Replace this with an icon or keep it empty for no text
-                        <VscAccount className="text-2xl" />
-                        </button>
-                        </SignInButton>
-                        </div>
-                        </SignedOut> */}
                         </div>
                         <Link href="/cart" className="flex items-center gap-2 relative group hover:cursor-pointer">
                                 <div className="relative">
@@ -259,18 +243,34 @@ const Header = () => {
                                  type="text"
                                   className='flex p-5 h-10 rounded-full border border-gray-600 w-[100%]' 
                                   placeholder='Search Categories & product names'  />
-                                  { searchTerm.length>1 ? (<BiX onClick={HandleClose} className="absolute border right-8  bg-gray-100 text-dark text-3xl   rounded-lg"/>):(<MdPhotoCamera onClick={handleImageSearch}  className="absolute hover:cursor-pointer top-[45%]   right-12  bg-gray-100 text-black/70 dark:text-white/70 dark:bg-transparent text-3xl " />)}
+                                  { searchTerm.length>1 && (<BiX onClick={HandleClose} className="absolute border right-8  bg-gray-100 text-dark text-3xl   rounded-lg"/>)}
         </div>
 
-        <div className='flex ml-5  md:ml-32  ' >
+        <div className='flex ml-5  h-30 items-center md:ml-32  ' >
                 
-        <div className='flex flex-nowrap gap-4 ' >
-                <div className='flex rounded-xl   p-1 bg-gray-100 hover:cursor-pointer hover:bg-gray-100 gap-2 dark:bg-transparent dark:hover:bg-gray-700'   onMouseOver={showDropDownMenu} >
-                         <BsList className=' font-bold text-2xl ' /> <h1 className='flex '>Categories</h1>
-                </div  >
-                <div className='flex rounded-full   p-2   hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700' onMouseOver={() => setHovered(false)} >
-                        <Link className='hidden md:flex' href="/post" >Sell Something?</Link>
-                        <Link className='flex md:hidden' href="/post" >sell ?</Link>
+        <div className=' hidden md:flex items-center flex-nowrap gap-4 ' >
+                <div className=' gap-6  items-center text-2xl font-bold ' >
+                                <Link href="/menu">
+                                        <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Our Menu</h1>
+                                </Link>
+                                
+                </div>
+                <div className='flex gap-6 ml-5 items-center ' >
+                        <div className='flex ' >
+                                        <h1 className='flex text-3xl font-semibold'>
+                                                Feeling Hungry ? 
+                                        </h1>
+                        </div>
+                        <div className='flex flex-col hover:cursor-pointer' >
+                                <h1 className=' text-3xl font-extrabold' >
+                                        <Link href="/order" >
+                                        PLACE YOUR ODER NOW
+                                        </Link>
+                                </h1>
+                                <h1 className=' flex text-center text-gray-900 '>
+                                Deliveries are now Available around Kampala
+                                </h1>
+                        </div>
                 </div>
         </div >
 
@@ -281,7 +281,7 @@ const Header = () => {
 
    </div>
   ) : (
-    Array.from({ length: 7 }).map((_, idx) => (
+    Array.from({ length: 4 }).map((_, idx) => (
       <div
         key={idx}
         className=" cursor-pointer rounded-xl p-2 bg-gray-200 dark:bg-gray-700 animate-pulse w-24 h-6 my-1"

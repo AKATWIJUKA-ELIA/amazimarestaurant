@@ -42,40 +42,49 @@ const MainHero = () => {
                         src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
                         overlay:"Grab May Discounts While Offers Last😁🤗"
                 },
-                // {
-                //         name:"Heror",
-                //         src:"https://cheery-cod-687.convex.cloud/api/storage/a0cb51bd-83c4-4a01-8590-04818bf8111e",
-                //         overlay:"Different Categories For Grabs😂😮"
-                // },
+                {
+                        name:"Heror",
+                        src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
+                        overlay:"Different Categories For Grabs😂😮"
+                },
+                {
+                        name:"Heror",
+                        src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
+                        overlay:"Different Categories For Grabs😂😮"
+                },
+                  {
+                        name:"Hero1",
+                        src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
+                        overlay:"Grab May Discounts While Offers Last😁🤗"
+                },
                 
-//HalyonBC
         ]
                         
   return (
-        <div className= ' -mt-10  '  >
+        <div className= 'mt-[20%] md:-mt-10  '  >
 
-        {products && products.length > 0 ? (
-                <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className="absolute w-[60%] md:w-[65%] md:left-16  mt-40 md:mt-36  flex items-center justify-center bg-black/40 text-white text-xl font-semibold md:p-2">
+        {images && images.length > 0 ? (
+                <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className=" w-[60%] md:w-[50%] md:left-16  bg-transparent  flex items-center justify-center   text-white text-xl font-semibold md:p-2">
         <CarouselContent className=''>
-  {products.map((product, index) => (
-    <CarouselItem key={index} className=" basis-[200px] md:basis-[300px] shrink-0">
+  {images.map((product, index) => (
+    <CarouselItem key={index} className=" basis-[200px] md:basis-[200px] shrink-0">
       <div className="p-1">
         <Card className="h-auto bg-transparent w-full">
           <CardContent className="relative  bg-transparent flex rounded-lg items-center justify-center p-6 h-36 overflow-hidden w-full">
             {/* Image */}
-            <Link href={`/category/${product.product_cartegory}`} >
+            <Link href={`/category/${product.name}`} >
               <Image
-                src={product.product_image[0] ?? ""}
+                src={product.src ?? ""}
                 //       height={100}
                 //       width={450}
-                alt={product.product_name}
+                alt={product.name}
                 fill
                 className='object-cover w-full h-full rounded-lg '
               />
 
               {/* Text Overlay */}
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/40 text-white text-xl font-semibold p-4">
-                {product.product_name}
+                {product.name}
               </div>
             </Link>
           </CardContent>
@@ -84,8 +93,8 @@ const MainHero = () => {
     </CarouselItem>
   ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext className='font-extrabold' />
+        <CarouselPrevious  className='bg-gray-500/50 h-8 w-8 hover:cursor-pointer  rounded-lg shadow-md' />
+        <CarouselNext  className='bg-gray-500/50 h-8 w-8 hover:cursor-pointer  rounded-lg shadow-md'/>
         </Carousel>
         ):(
                 <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className=" w-[60%] md:w-[50%] md:left-16  bg-transparent  flex items-center justify-center   text-white text-xl font-semibold md:p-2">
