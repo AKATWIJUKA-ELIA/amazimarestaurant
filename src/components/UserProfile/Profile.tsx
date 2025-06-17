@@ -9,11 +9,9 @@ import useValidateUsername from "@/hooks/useValidateUsername"
 import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import useCreateUser from "@/hooks/useCreateUser"
-import { useRouter } from "next/navigation";
-import useSignUpWithGoogle from "@/hooks/useSignUpWithGoogle"
-import { CredentialResponse } from "@react-oauth/google";
+import {LogOutIcon} from "lucide-react";
 import {useData} from  '../../app/DataContext';
-import {LogoutUser} from "@/lib/actions";
+import useLogout from "@/hooks/useLogout"
 
 interface user {
         username: string,
@@ -31,7 +29,7 @@ const AccountManagement = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">)=> {
-        const {data} = useData()
+        const {data,setData} = useData()
         const [Created,setCreated] = useState(false)
         const {createUser} = useCreateUser()
         const [view1,setview1] = useState(false)
@@ -48,6 +46,7 @@ const AccountManagement = ({
         const [UserNameIsTaken, setUserNameIsTaken] = useState<boolean>(false);
         const [phoneNumber, setPhoneNumber] = useState('');
         const [passwordsDontMatch, setpasswordsDontMatch] = useState(false);
+          
         const [formdata, setformdata] = useState<formdata>({
                 username: '',
                 email: '',
@@ -60,13 +59,14 @@ const AccountManagement = ({
                 passwordHash:"",
                 phoneNumber:"",
         })
-        const {SignUpWithGoogle} = useSignUpWithGoogle()
-        const router = useRouter()
         const { sendEmail, } = useSendMail();
         const  {CheckUsername} = useValidateUsername()
         const admin = process.env.NEXT_PUBLIC_ADMIN
 
-
+        // const logout =()=>{
+        //         const logout = useLogout();
+        // }
+const logout = useLogout();
         const resetUser = () => {
                         setUser({
                                 username: "",
@@ -280,9 +280,7 @@ clearForm()
                     },5000)
                   }}
 
-const LogOut  = async ()=>{
-        await LogoutUser()
-                }
+
 
   return (
     <div className="flex justify-center gap-44" >
@@ -290,15 +288,34 @@ const LogOut  = async ()=>{
         <div className="flex flex-col gap-24">
                  <div className="flex flex-col gap-2">
                         <h1 className="text-2xl font-bold">Account Settings </h1>
-                        <h1>Hello { data.User?.User?.name}</h1>
+                        <h1 className="font-semibold font-sans text-red-700 text-xl " >Hello, <span className=" font-extrabold" >{ data.User?.name} !</span></h1>
+                        <div className="flex mt-4 font-semibold p-3 hover:cursor-pointer transition duration-300  hover:bg-gray-400 rounded-md   gap-2">
+                        <h1>
+                                Past Orders
+                        </h1>
+                        </div>
+                 <div className="flex mt-4 font-semibold p-3 hover:cursor-pointer transition duration-300  hover:bg-gray-400 rounded-md  gap-2">
+                        <h1>
+                                Payment Methods
+                        </h1>
                  </div>
-                 <div className="flex mt-64">
-                       <Button variant={"destructive"} 
+                 </div>
+ 
+                 
+                 <div className="flex flex-col gap-4 mt-34">
+                       <Button
                         className="w-full hover:cursor-pointer hover:bg-red-400  "
-                        onClick={()=>LogOut()}
+                        onClick={()=>{logout(); setData({ User: null });}}
                         >
+                                <LogOutIcon />
                                 {isSubmitting?"Submitting":"Logout"}
                                 </Button>
+                        <Button variant={"destructive"} 
+                        className="w-full hover:cursor-pointer hover:bg-red-400  "
+                        // onClick={()=>LogOut()}
+                >
+                        Delete Account
+                        </Button>
                  </div>
         </div>
         <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
@@ -325,7 +342,7 @@ const LogOut  = async ()=>{
           onChange={handleUsernameChange}
           minLength={5}
           maxLength={10}
-          placeholder="amazima"
+          placeholder={data.User?.name || "Enter your username"}
            required />
            {username && username.length<5 && <h1 className="text-red-600 text-xs ">username should have atleast 5 characters </h1>}
            {UserNameIsTaken && <h1 className="text-red-600 text-xs "><span className="text-black dark:text-white" >{username}</span> is taken </h1>}
@@ -337,7 +354,7 @@ const LogOut  = async ()=>{
           <Input id="email" 
           type="email"
           value={email} 
-          placeholder="amazima@gmail.com" 
+          placeholder={data.User?.email || "Enter your email"}
           required
           onChange={handleEmailChange} 
           />
@@ -347,13 +364,38 @@ const LogOut  = async ()=>{
         <div className="grid gap-2">
           <Label htmlFor="phoneNumber">Phone Number</Label>
           <Input id="phoneNumber" 
-          type="tel" 
+          type="tel"
           maxLength={13}
           minLength={10}
           value={phoneNumber}
          onChange={handlePhoneChange}
-          placeholder="+256123456789"  
+          placeholder={data.User?.phone || "phone number"} 
           required />
+        </div>
+
+        <div className="grid gap-2">
+          <div className="flex items-center">
+            <Label htmlFor="oldpassword">Old Password</Label>
+          </div>
+          <div className="relative" >
+          <Input 
+          id="oldpassword" 
+          type={password1type}
+          maxLength={16}
+          minLength={8}
+          onChange={handlePassword1Change}
+          value={password1}
+           required
+            />
+            {view1 ?(
+                <IoEye  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer" onClick={()=>HandleHide("password1")}  />
+                ):(
+                        <IoMdEyeOff 
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer" onClick={()=>HandleView("password1")}
+                />
+                )}
+                </div>
+            {PasswordError  &&  <h1 className="text-red-500 text-xs" >Password must be at least 8 characters, include upper and lower case letters, and a number</h1>}
         </div>
 
         <div className="grid gap-2">

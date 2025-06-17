@@ -14,16 +14,15 @@ import { BiX } from 'react-icons/bi';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { usePathname } from 'next/navigation';
-import { getCurrentUser } from '@/lib/actions';
-import { AppwriteUser } from '@/lib/types';
+import useGetCurrentUser from '@/hooks/useGetCurrentUser';
 import {useData} from  '../../app/DataContext';
 // import useGenerateEmbeddings from '@/hooks/useGenerateEmbeddings';
 // import useVectorSearch from '@/hooks/useVectorSearch';
 
 const Header = () => {
-        const {setData} = useData();
+         const {data} = useData()
+        const [user, setUser] = useState<any>(null);
         const cartitem = useAppSelector(state => state.cart.items);
-        const [User,setUser] = useState<AppwriteUser | null>(null);
         const Cart = cartitem?.reduce((total, item) => total + (item.quantity || 0), 0)
         const [Hovered,setHovered] = useState(false)
         const [sticky, setSticky] = useState(false);
@@ -34,11 +33,9 @@ const Header = () => {
         // const [filteredProducts, setFilteredProducts] = useState(data.Products.product || []);
         const [UserDrawer, setUserDrawer] = useState(false);
         
-        // console.log("Data from DataContext :",data)
         // const {Embed} = useGenerateEmbeddings();
         // const vectorSearchHook = useVectorSearch();
         // const vectorSearch = vectorSearchHook?.vectorSearch;
-
         const carousel = Autoplay({ delay: 6000})
 
         const truncateString = (text: string, maxLength: number): string => {
@@ -53,18 +50,7 @@ const Header = () => {
                         setshowlowerBar(true)
                 }
         },[pathname])
-        useEffect(() => {
-                const fetchUser = async () => {
-                        const user = await getCurrentUser();
-                        setUser(user ? user : null);
-                        setData((prevData) => ({
-                                ...prevData,
-                                user: user ? user : null
-                        }));
-                        console.log("User from Header :", user)
-                };
-                fetchUser();
-        }, []);
+
         // console.log(pathname)
         const showDropDownMenu=()=>{
                 setHovered(true)
@@ -181,12 +167,12 @@ const Header = () => {
                         </div>
                         <div className="flex items-center gap-2 py-1 hover:cursor-pointer">
 
-                        {User ? (
+                        {data && data.User?.name? (
                                 <div className='flex' >
                                         <div className="hidden lg:flex  bg-white hover:bg-gray-200 transition duration-100 border border-gray-300 rounded-3xl">
                                                 <div className='flex mt-1 font-sans dark:text-dark px-2 ' onClick={()=>setUserDrawer(true)} >
                                                         <Link href="/profile" className='flex font-bold   ' >
-                                                        {User.name}
+                                                        {data?.User?.name}
                                                         </Link>
                                                 </div>
                                                 <div className='flex rounded-full' >
@@ -279,7 +265,7 @@ const Header = () => {
 
         
 <div className='hidden md:flex ml-5 gap-14'>
-  {User  ? (
+  {data  ? (
    <div>
 
    </div>
@@ -301,7 +287,7 @@ const Header = () => {
                         className="w-full max-w-full h-6 "
                         >
                         <CarouselContent className="w-full">
-                        { User ? (
+                        { user ? (
                                 <div></div>
                         ):(
                                 <div className='animate-pulse' />
