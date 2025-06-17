@@ -12,7 +12,7 @@ const carouselItems = [
     description: "Explore breathtaking peaks",
     price: "Starting at $99",
     color: "bg-gradient-to-br from-green-400 to-blue-500",
-    image: "/images/sampleImages/IMG-20241025-WA0004.jpg",
+    image: "/images/sampleImages/fry.jpg",
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const carouselItems = [
     description: "Dive into crystal waters",
         price: "Starting at $79",
     color: "bg-gradient-to-br from-blue-400 to-cyan-500",
-    image: "/images/sampleImages/IMG-20241025-WA0005.jpg",
+    image: "/images/sampleImages/slads.jpg",
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const carouselItems = [
     description: "Journey through golden sands",
         price: "Starting at $59",
     color: "bg-gradient-to-br from-yellow-400 to-orange-500",
-    image: "/images/sampleImages/IMG-20241025-WA0008.jpg",
+    image: "/images/sampleImages/fooood.jpg",
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ const carouselItems = [
     description: "Walk among ancient trees",
         price: "Starting at $49",
     color: "bg-gradient-to-br from-green-500 to-emerald-600",
-    image: "/images/sampleImages/IMG-20241025-WA0019.jpg",
+    image: "/images/sampleImages/foods.jpg",
   },
   {
     id: 5,
@@ -44,7 +44,7 @@ const carouselItems = [
     description: "Experience urban energy",
         price: "Starting at $89",
     color: "bg-gradient-to-br from-purple-400 to-pink-500",
-    image: "/images/sampleImages/IMG-20241025-WA0030.jpg",
+    image: "/images/sampleImages/pan.jpg",
   },
   {
     id: 6,
@@ -52,7 +52,7 @@ const carouselItems = [
     description: "Gaze at infinite cosmos",
         price: "Starting at $99",
     color: "bg-gradient-to-br from-indigo-500 to-purple-600",
-    image: "/images/sampleImages/WhatsApp Image 2024-11-04 at 19.00.01_2fd903ea.jpg",
+    image: "/images/sampleImages/spice.jpg",
   },
 ]
 
@@ -135,16 +135,16 @@ export default function CircularMotionCarousel() {
                 onClick={() => setCurrentIndex(index)}
               >
                 <Card
-                  className={`w-40 h-40 ${isActive ? "rounded-full shadow-2xl" : "shadow-lg"} rounded-full hover:shadow-2xl transition-shadow`}
+                  className={`w-40 h-40 ${isActive ? "  rounded-full shadow-2xl" : "shadow-lg"} rounded-full hover:shadow-2xl transition-shadow`}
                 >
                   <CardContent
-                    className={` h-full border border-black/40  shadow-2xl  text-white rounded-e-full flex flex-col justify-center items-center text-center`}
+                    className={` h-full border border-black/40  shadow-2xl/90  text-white rounded-full flex flex-col justify-center items-center text-center`}
                   >
                     <div className="w-full h-full flex items-center justify-center  ">
                         <Image src={item.image}
                         width={100}
                         height={100}
-                         alt={item.title} className="w-full h-full object-cover rounded-e-full" />
+                         alt={item.title} className="w-full h-full object-cover rounded-full" />
                     </div>
                  
                   </CardContent>
@@ -206,7 +206,7 @@ export default function CircularMotionCarousel() {
 
     </div>
                 {/* Active Item Details */}
-      <div className="hidden md:flex z-40  bg-amber-500 shadow-2xl text-center  h-[50%] w-[35%] ml-[48%] rounded-bl-3xl rounded-tr-3xl mt-[19%]">
+      <div className="hidden md:flex z-40  bg-amber-500 shadow-2xl/90 text-center  h-[50%] w-[35%] ml-[48%] rounded-bl-3xl rounded-tr-3xl mt-[22%]">
         <Card className="w-full  rounded-bl-3xl rounded-tr-3xl mx-auto">
                 <div>
                         <h1 className="font-bold text-2xl" >

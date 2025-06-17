@@ -288,7 +288,7 @@ clearForm()
         <div className="flex flex-col gap-24">
                  <div className="flex flex-col gap-2">
                         <h1 className="text-2xl font-bold">Account Settings </h1>
-                        <h1 className="font-semibold font-sans text-red-700 text-xl " >Hello, <span className=" font-extrabold" >{ data.User?.name} !</span></h1>
+                        <h1 className="font-extrabold font-sans  text-red-700 text-xl " >Hi, <span className=" font-extrabold" >{ data.User?.name.toUpperCase()}!</span></h1>
                         <div className="flex mt-4 font-semibold p-3 hover:cursor-pointer transition duration-300  hover:bg-gray-400 rounded-md   gap-2">
                         <h1>
                                 Past Orders

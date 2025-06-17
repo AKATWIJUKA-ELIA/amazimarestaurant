@@ -64,13 +64,13 @@ const MainHero = () => {
         <div className= 'mt-[20%] md:-mt-10  '  >
 
         {images && images.length > 0 ? (
-                <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className=" w-[60%] md:w-[50%] md:left-16  bg-transparent  flex items-center justify-center   text-white text-xl font-semibold md:p-2">
+                <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className=" w-[60%] md:w-[40%] md:left-16  bg-transparent  flex items-center justify-center   text-white text-xl font-semibold md:p-2">
         <CarouselContent className=''>
   {images.map((product, index) => (
-    <CarouselItem key={index} className=" basis-[200px] md:basis-[200px] shrink-0">
-      <div className="p-1">
-        <Card className="h-auto bg-transparent w-full">
-          <CardContent className="relative  bg-transparent flex rounded-lg items-center justify-center p-6 h-36 overflow-hidden w-full">
+    <CarouselItem key={index} className=" basis-[200px] md:basis-[100px] shrink-0">
+      <div className="p-1 ">
+        <Card className="h-auto bg-blue-400 w-20 rounded-full ">
+          <CardContent className="relative  bg-transparent flex rounded-full items-center justify-center p-6 h-20 w-20 overflow-hidden ">
             {/* Image */}
             <Link href={`/category/${product.name}`} >
               <Image

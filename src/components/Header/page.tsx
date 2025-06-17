@@ -5,11 +5,11 @@ import { Separator } from "@/components/ui/separator"
 import { BsList } from "react-icons/bs";
 import { VscAccount } from "react-icons/vsc";
 import { CiShoppingCart } from "react-icons/ci";
-// import DropDownMenu from '../DropDownMenu/page';
+import DropDownMenu from '../DropDownMenu/page';
 import Link from 'next/link';
 import { useAppSelector } from '@/hooks';
 import { Input } from '../ui/input';
-// import SearchModel from '../SearchModel/page';
+import SearchModel from '../SearchModel/page';
 import { BiX } from 'react-icons/bi';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
@@ -30,7 +30,7 @@ const Header = () => {
          const [showlowerBar, setshowlowerBar] = useState(true)
         const [searchTerm, setSearchTerm] = useState('');
         
-        // const [filteredProducts, setFilteredProducts] = useState(data.Products.product || []);
+        const [filteredProducts, setFilteredProducts] = useState([]);
         const [UserDrawer, setUserDrawer] = useState(false);
         
         // const {Embed} = useGenerateEmbeddings();
@@ -143,11 +143,11 @@ const Header = () => {
                         </div>
 
                         <div className='hidden md:flex gap-6  items-center text-2xl font-bold ' >
-                                <Link href="/menu">
+                                <Link href="/takeaway">
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Take Away</h1>
                                 </Link>
 
-                                <Link href="/about">
+                                <Link href="/offer">
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis  ">Offers</h1>
                                 </Link>
                                 <Link href="/about">
@@ -237,7 +237,7 @@ const Header = () => {
         <div className='flex ml-5  h-30 items-center md:ml-32  ' >
                 
         <div className=' hidden md:flex items-center flex-nowrap gap-4 ' >
-                <div className=' gap-6  items-center text-2xl font-bold ' >
+                <div className=' gap-6  items-center text-2xl font-bold ' onMouseOver={()=>showDropDownMenu()} >
                                 <Link href="/menu" className='flex gap-2 items-center ' >
                                 <BsList  />
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Our Menu</h1>
@@ -305,8 +305,9 @@ const Header = () => {
 
 
     </div>
-    {/* {  searchTerm.length>1 ? (<SearchModel Focused={Focused} products={filteredProducts ||[]} onClose={HandleClose} />):("")}
-    {  UserDrawer ? (<UserModel  onClose={HandleClose} />):("")} */}
+    <DropDownMenu isvisible={Hovered} onClose={() => setHovered(false)} />
+   {  searchTerm.length>1 ? (<SearchModel Focused={Focused} products={filteredProducts ||[]} onClose={HandleClose} />):("")}
+  {/*    {  UserDrawer ? (<UserModel  onClose={HandleClose} />):("")} */}
     </>
   )
 }
