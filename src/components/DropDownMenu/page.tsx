@@ -1,26 +1,32 @@
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import Link from "next/link";
 import { BiX } from 'react-icons/bi';
-
+import useGetCategories from '@/hooks/useGetCategories';
 import Image from 'next/image';
 import { Oval } from 'react-loader-spinner';
+import { ProductCategory } from '@/lib/types';
 
 interface DropDownMenuProps {
   isvisible: boolean;
   onClose: () => void;
 }
+interface Category extends ProductCategory {}
 
 const DropDownMenu: React.FC<DropDownMenuProps> = ({ isvisible, onClose,  }) => {
-        const [category,setCategory] = useState("")
-        const cartegories:any[] = []
+        const [Categories, setCategories] = useState<Category[]>([])
+        const {categories} = useGetCategories()
         const related:any[] = []
-        // console.log("related",related)
+        console.log("categories",categories)
 
-// useEffect(()=>{
-        
-// })
+useEffect(()=>{
+        if (categories && Array.isArray(categories)) {
+                setCategories(categories)
+        } else {
+                setCategories([])
+        }
+}, [categories])
 const HandleChange =(cart:string)=>{
-        setCategory(cart)
+        // setCategories([cart])
 }
       if (!isvisible) return null;
 
@@ -56,59 +62,20 @@ const HandleChange =(cart:string)=>{
                            <div  className='flex h-full' id="Categories">
 
                                 <div className="ml-12   h-90 overflow-y-auto  "  > 
-                                       <h1 className='font-bold text-2xl' > Categories</h1>
-                                        {cartegories? (cartegories.map(({_id, cartegory}) =>
-                                                <div key={_id} className=" cursor-pointer mr-2  p-2 slider slide--fast hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg ">
-                                                
-                                                <Link href={`/category/${encodeURIComponent(cartegory)}`}  onMouseOver={()=>{HandleChange(cartegory)}} onClick={onClose}>
-                                                <h1   className='animated  main '  > <span id='main' className='animated current   '>{cartegory}</span></h1> 
+                                       <h1 className='font-bold dark:text-black text-2xl' > MENU</h1>
+                                        <div className='grid grid-cols-2 gap-4' >
+                                                {Categories.length > 0 ? (Categories.map((category, _id ) =>
+                                                <div key={_id} className=" cursor-pointer mr-2  p-2 slider slide--fast dark:text-black hover:bg-gray-100 dark:hover:bg-gray-300 rounded-lg ">
+
+                                                <Link href={`/category/${encodeURIComponent(category.title)}`}  onMouseOver={()=>{HandleChange(category.title)}} onClick={onClose}>
+                                                <h1   className='animated   main '  > <span id='main' className='animated current   '>{category.title}</span></h1>
                                                 </Link>
                                                 </div>
                                         )):(<div className="vertical-line ml-2  fade-in "  > Loading . . .  </div>)}
+                                        </div>
                                 
                                 
                                 </div>
-                                <div className='hidden  md:grid grid-cols-2 md:grid-cols-7 p-2 gap-2'>
-                                        {!related ? (
-                                        <div className="col-span-full flex justify-center items-center h-40">
-                                        <Oval
-                                                visible={true}
-                                                height="20"
-                                                width="20"
-                                               color="#0000FF"
-                                                secondaryColor="#FFD700"
-                                                ariaLabel="oval-loading"
-                                        />
-                                        <h1 className='text-2xl text-gray-500 '>Hover an item to see related Categories</h1>
-                                        </div>
-                                                ) : related.length === 0 ? (
-                                                <div className="col-span-full text-center text-gray-500">No results found.</div>
-                                                ) : (
-                                                related.map((product) => (
-                                                <Link key={product._id} href={`/product/${product._id}`} className="w-full">
-                                                        <div className='flex flex-col justify-center'>
-                                                        <div className="relative w-full h-16 gap-3 flex items-center justify-center bg-transparent transition-transform duration-200 hover:scale-105">
-                                                        <Image
-                                                        src={
-                                                                 Array.isArray(product.product_image)
-                                                                 ? (product.product_image.length > 0 ? product.product_image[0] : "")
-                                                                : product.product_image
-                                                        }
-                                                        alt={product.product_name}
-                                                        width={900}
-                                                        height={500}
-                                                        className="w-full h-full object-cover rounded-lg"
-                                                        />
-                                                        </div>
-                                                        <div className='justify-center text-center'>
-                                                        <h1 className='text-sm'>{product.product_name}</h1>
-                                                        </div>
-                                                        </div>
-                                                </Link>
-                                                ))
-                                                )}
-                                                </div>
-
 
                         </div>  
                      
