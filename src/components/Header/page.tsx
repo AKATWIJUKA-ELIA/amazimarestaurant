@@ -142,9 +142,6 @@ const Header = () => {
                         </div>
 
                         <div className='hidden md:flex gap-6  items-center text-2xl font-bold  ' >
-                                <Link href="/takeaway">
-                                        <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Take Away</h1>
-                                </Link>
 
                                 <Link href="/offer">
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis  ">Offers</h1>
