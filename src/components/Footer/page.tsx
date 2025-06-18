@@ -1,11 +1,12 @@
 "use client"
 import Link from "next/link"
+import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowRight } from "lucide-react"
 import { useSendMail } from "@/hooks/useSendMail"
-import useAddEmail from "@/hooks/useAddEmail"
+// import useAddEmail from "@/hooks/useAddEmail"
 import { useState } from "react"
 
 export function Footer() {
@@ -15,7 +16,7 @@ export function Footer() {
   const [submitted,setsubmitted] = useState(false)
    const [ErrorMailMessage, setErrorMailMessage ] = useState<string>('')
   const {sendEmail}  = useSendMail()
-  const { save } = useAddEmail();
+//   const { save } = useAddEmail();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setuseremail(e.target.value) 
@@ -29,17 +30,17 @@ export function Footer() {
       e.preventDefault()
       setIsSubmitting(true)
       
-        const saveEmail = await save(useremail)
+        // const saveEmail = await save(useremail)
 
-if ( !saveEmail.success ) {
-        setIsSubmitting(false)
-         setErrorMailMessage(saveEmail.error)
-         setTimeout(()=>{
-                setErrorMailMessage('')
-         },4000)
-         cleanForm()
-    return            
-}
+// if ( !saveEmail.success ) {
+//         setIsSubmitting(false)
+//          setErrorMailMessage(saveEmail.error)
+//          setTimeout(()=>{
+//                 setErrorMailMessage('')
+//          },4000)
+//          cleanForm()
+//     return            
+// }
 try {
         const html = `
         <!DOCTYPE html>
@@ -135,8 +136,10 @@ setTimeout(() => {
 //   console.log(useremail)
 
   return (
-        <footer className="bg-dark border-t dark:bg-gray-900 dark:border-gray-700">
-        <div className="container mx-auto px-4 py-12">
+        <footer className="bg-white [w-100%]  dark:bg-gray-900 "
+        
+        >
+        <div className=" w-full mx-auto px-4 py-12 dark:bg-gray-900 bg-white/60  opacity-95"     style={{ backdropFilter: 'blur(3px)' }}>
           {/* Newsletter Section */}
           <div className="bg-white p-6 rounded-lg shadow-sm mb-10 dark:bg-gray-800 dark:shadow-md">
             <div className="grid md:grid-cols-2 gap-6 items-center">
@@ -167,7 +170,7 @@ setTimeout(() => {
                     placeholder={submitting ? "Submitting ..." : "Your email address"}
                     className="max-w-md border-black dark:border-gray-600"
                   />
-                  <Button type="submit" className="bg-gold">
+                  <Button type="submit" className="bg-gray-800 dark:bg-gray-400 dark:hover:bg-gray-200 ">
                     Subscribe <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </form>
@@ -179,92 +182,19 @@ setTimeout(() => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             {/* Company Info */}
             <div>
-              <h4 className="font-bold text-lg text-white mb-4 dark:text-gray-100">Company</h4>
-              <div className="space-y-3">
-                <Link href="/about" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  About Us
-                </Link>
-                <Link href="/careers" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Careers
-                </Link>
-                <Link href="/impact" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Social Impact
-                </Link>
-                <Link href="/affiliates" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Affiliate Program
-                </Link>
-              </div>
-            </div>
-      
-            {/* Customer Service */}
-            <div>
-              <h4 className="font-bold text-lg text-white mb-4 dark:text-gray-100">Customer Service</h4>
-              <div className="space-y-3">
-                <Link href="/help" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Help Center
-                </Link>
-                <Link href="/shipping" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Shipping & Delivery
-                </Link>
-                <Link href="/returns" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Returns & Exchanges
-                </Link>
-                <Link href="/order-tracking" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Order Tracking
-                </Link>
-                <Link href="/gift-cards" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Gift Cards
-                </Link>
-                <Link href="/contact" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Contact Us
-                </Link>
-              </div>
-            </div>
-      
-            {/* Account */}
-            <div>
-              <h4 className="font-bold text-white text-lg mb-4 dark:text-gray-100">My Account</h4>
-              <div className="space-y-3">
-                <Link href="/sign-in" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Sign In
-                </Link>
-                <Link href="/sign-up" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Register
-                </Link>
-                <Link href="/cart" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
-                  Shopping Cart
-                </Link>
-              </div>
-            </div>
-      
-            {/* Contact Info */}
-            <div>
-              <h4 className="font-bold text-lg text-white mb-4 dark:text-gray-100">Contact Us</h4>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <MapPin className="h-5 w-5 mr-2 text-gray-600 mt-0.5 dark:text-gray-300" />
-                  <span className="text-gray-600 dark:text-gray-300">
-                    32 km Gayaza-Zirobwe Rd
-                    <br />
-                    Bugema University
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-300" />
-                  <span className="text-gray-600 dark:text-gray-300">
-                    <a href="tel:+256 787357137">+256 787357137</a>
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-300" />
-                  <span className="text-gray-600 dark:text-gray-300">
-                    <a href="mailto: eliaakjtrnq@gmail.com">eliaakjtrnq@gmail.com</a>
-                  </span>
-                </div>
-      
-                {/* Social Media */}
-                <div className="mt-6">
-                  <h5 className="font-medium text-gold mb-3">Follow Us</h5>
+              <h4 className="font-bold text-lg text-gray-900 mb-4 dark:text-gray-100">Company</h4>
+              <Link href="/">
+              <Image
+              src="/images/logo1.png"
+              alt='logo' 
+              width='200' 
+              height="100"
+              className='rounded-md h-16 w-64'
+              />
+              </Link>
+              {/* Social Media */}
+                <div className="mt-4">
+                        <h4 className="font-bold text-lg text-gray-900 mb-4 dark:text-gray-100">amazimarestaurant</h4>
                   <div className="flex space-x-4">
                     <a
                       href="https://facebook.com"
@@ -304,6 +234,63 @@ setTimeout(() => {
                     </a>
                   </div>
                 </div>
+            </div>
+      
+            {/* Customer Service */}
+            <div>
+              <h4 className="font-bold text-lg text-gray-900 mb-4 dark:text-gray-100">Customer Service</h4>
+              <div className="space-y-3">
+                <Link href="/help" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
+                  Help Center
+                </Link>
+                <Link href="/order-tracking" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
+                  Order Tracking
+                </Link>
+              </div>
+            </div>
+      
+            {/* Account */}
+            <div>
+              <h4 className="font-bold text-gray-900 text-lg mb-4 dark:text-gray-100">My Account</h4>
+              <div className="space-y-3">
+                <Link href="/sign-in" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
+                  Sign In
+                </Link>
+                <Link href="/sign-up" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
+                  Register
+                </Link>
+                <Link href="/cart" className="block text-gray-600 hover:text-orange-400 dark:text-gray-300 dark:hover:text-orange-300">
+                  Shopping Cart
+                </Link>
+              </div>
+            </div>
+      
+            {/* Contact Info */}
+            <div>
+              <h4 className="font-bold text-lg text-gray-900 mb-4 dark:text-gray-100">Contact Us</h4>
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <MapPin className="h-5 w-5 mr-2 text-gray-600 mt-0.5 dark:text-gray-300" />
+                  <span className="text-gray-600 dark:text-gray-300">
+                    32 km Gayaza-Zirobwe Rd
+                    <br />
+                    Bugema University
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <Phone className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-300" />
+                  <span className="text-gray-600 dark:text-gray-300">
+                    <a href="tel:+256 787357137">+256 787357137</a>
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <Mail className="h-5 w-5 mr-2 text-gray-600 dark:text-gray-300" />
+                  <span className="text-gray-600 dark:text-gray-300">
+                    <a href="mailto: eliaakjtrnq@gmail.com">eliaakjtrnq@gmail.com</a>
+                  </span>
+                </div>
+      
+                
               </div>
             </div>
           </div>

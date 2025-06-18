@@ -14,7 +14,6 @@ import { BiX } from 'react-icons/bi';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { usePathname } from 'next/navigation';
-import useGetCurrentUser from '@/hooks/useGetCurrentUser';
 import {useData} from  '../../app/DataContext';
 // import useGenerateEmbeddings from '@/hooks/useGenerateEmbeddings';
 // import useVectorSearch from '@/hooks/useVectorSearch';
@@ -117,8 +116,8 @@ const Header = () => {
         //         flex    border border-gray-300 
   return (
     <>
-    <div className={` fixed  top-0 left-0 z-40 flex flex-col py-3 w-full  bg-white/70 opacity-95 text-black gap-1 dark:bg-dark dark:text-white
-            ${sticky ? "bg-transparent  !fixed !z-[9999] ! bg-opacity-100 shadow-sticky backdrop-blur-lg fade-in !transition ": "absolute" }`
+    <div className={` fixed  top-0 left-0 z-40 flex flex-col py-3 w-full  bg-white/70 opacity-95 text-black gap-1 dark:bg-gray-900 dark:text-white
+            ${sticky ? "bg-transparent  !fixed !z-[9999] ! bg-opacity-100 shadow-sticky backdrop-blur-lg  fades-in transition ": "absolute" }`
       }>
         <div className='flex w-[100%] gap-18  ' >
                 <div className='flex gap-6 md:ml-20   w-[70%] ' >
@@ -142,7 +141,7 @@ const Header = () => {
                                   { searchTerm.length>1 && (<BiX onClick={HandleClose} className="absolute hover:cursor-pointer border top-[16%] right-[41%]  bg-gray-100 text-dark text-3xl   rounded-lg"/>)}
                         </div>
 
-                        <div className='hidden md:flex gap-6  items-center text-2xl font-bold ' >
+                        <div className='hidden md:flex gap-6  items-center text-2xl font-bold  ' >
                                 <Link href="/takeaway">
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Take Away</h1>
                                 </Link>
@@ -169,7 +168,7 @@ const Header = () => {
 
                         {data && data.User?.name? (
                                 <div className='flex' >
-                                        <div className="hidden lg:flex  bg-white hover:bg-gray-200 transition duration-100 border border-gray-300 rounded-3xl">
+                                        <div className="hidden lg:flex  bg-white dark:text-gray-900 hover:bg-gray-200 transition duration-100 border border-gray-300 rounded-3xl">
                                                 <div className='flex mt-1 font-sans dark:text-dark px-2 ' onClick={()=>setUserDrawer(true)} >
                                                         <Link href="/profile" className='flex font-bold   ' >
                                                         {data?.User?.name}
@@ -256,7 +255,7 @@ const Header = () => {
                                         PLACE YOUR ODER NOW
                                         </Link>
                                 </h1>
-                                <h1 className=' flex text-center text-gray-900 '>
+                                <h1 className=' flex text-center dark:text-white text-gray-900 '>
                                 Deliveries are now Available around Kampala
                                 </h1>
                         </div>

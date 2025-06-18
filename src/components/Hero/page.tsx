@@ -1,6 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card"
+import { MdOutlineFreeBreakfast ,MdLunchDining, } from 'react-icons/md';
+import { VeganIcon,Salad, LucideVegan } from 'lucide-react';
+import { GiFruitTree } from "react-icons/gi";
+
 import {
   Carousel,
   CarouselContent,
@@ -9,7 +13,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
-import Image from 'next/image';
 import Link from 'next/link';
 import { Oval } from 'react-loader-spinner';
 
@@ -33,68 +36,64 @@ const MainHero = () => {
   const [products, setproducts] = useState<Products[]>([]);
   const images = [
                 {
-                name:"Heror",
-                src:"https://cheery-cod-687.convex.cloud/api/storage/115cc2cd-79c0-4b3c-bb84-86df5f76e138",
+                name:"Break",
+                icon:MdOutlineFreeBreakfast ,
                 overlay:"Mid Year Sales Here 😊 "
                 },
                 {
-                        name:"Hero1",
-                        src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
+                        name:"lunch",
+                        icon:MdLunchDining,
                         overlay:"Grab May Discounts While Offers Last😁🤗"
                 },
                 {
-                        name:"Heror",
-                        src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
+                        name:"salads",
+                        icon:Salad,
                         overlay:"Different Categories For Grabs😂😮"
                 },
                 {
-                        name:"Heror",
-                        src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
+                        name:"fruits",
+                        icon:GiFruitTree ,
                         overlay:"Different Categories For Grabs😂😮"
                 },
                   {
-                        name:"Hero1",
-                        src:"https://cheery-cod-687.convex.cloud/api/storage/55199998-af85-4493-af98-d8c3aff3d8dd",
+                        name:"vegan",
+                        icon:VeganIcon,
                         overlay:"Grab May Discounts While Offers Last😁🤗"
                 },
                 
         ]
                         
   return (
-        <div className= 'mt-[20%] md:-mt-10  '  >
+        <div className= 'mt-[38%]   '  >
 
         {images && images.length > 0 ? (
-                <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className=" w-[60%] md:w-[40%] md:left-16  bg-transparent  flex items-center justify-center   text-white text-xl font-semibold md:p-2">
+                <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className=" mx-auto md:ml-5 w-[60%] md:w-[40%] md:left-16  bg-transparent  flex items-center justify-center   text-white text-xl font-semibold md:p-2">
         <CarouselContent className=''>
   {images.map((product, index) => (
     <CarouselItem key={index} className=" basis-[200px] md:basis-[100px] shrink-0">
       <div className="p-1 ">
-        <Card className="h-auto bg-blue-400 w-20 rounded-full ">
-          <CardContent className="relative  bg-transparent flex rounded-full items-center justify-center p-6 h-20 w-20 overflow-hidden ">
+        <Card className="h-auto  w-20 shadow-none bg-transparent  dark:bg-transparent ">
+          <CardContent className="relative  bg-transparent flex  items-center justify-center p-6 h-20 w-20 overflow-hidden  ">
             {/* Image */}
-            <Link href={`/category/${product.name}`} >
-              <Image
-                src={product.src ?? ""}
-                //       height={100}
-                //       width={450}
-                alt={product.name}
-                fill
-                className='object-cover w-full h-full rounded-lg '
-              />
-
-              {/* Text Overlay */}
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/40 text-white text-xl font-semibold p-4">
-                {product.name}
+            <div className='flex flex-col justify-center hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-400  p-2 rounded-2xl transition duration-200 hover:cursor-pointer shadow dark:shadow-xl    '>
+                <Link href={`/category/${product.name}`} className='flex justify-center' >
+              <div className='flex'>
+                {<product.icon/>}
               </div>
             </Link>
+            <div className='flex'>
+                <h1 className='flex z-50'>{product.name}</h1>
+            </div>
+            </div>
+
           </CardContent>
         </Card>
       </div>
     </CarouselItem>
   ))}
         </CarouselContent>
-        <CarouselPrevious  className='bg-gray-500/50 h-8 w-8 hover:cursor-pointer  rounded-lg shadow-md' />
-        <CarouselNext  className='bg-gray-500/50 h-8 w-8 hover:cursor-pointer  rounded-lg shadow-md'/>
+        <CarouselPrevious  className='bg-gray-500/50 dark:bg-gray-900 h-8 w-8 hover:cursor-pointer  rounded-lg shadow-md' />
+        <CarouselNext  className='bg-gray-500/50 dark:bg-gray-900 h-8 w-8 hover:cursor-pointer  rounded-lg shadow-md'/>
         </Carousel>
         ):(
                 <Carousel opts={{align: "start",loop: true}} plugins={[carousel]} className=" w-[60%] md:w-[50%] md:left-16  bg-transparent  flex items-center justify-center   text-white text-xl font-semibold md:p-2">
