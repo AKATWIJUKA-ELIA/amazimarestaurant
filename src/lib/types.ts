@@ -22,7 +22,7 @@ export interface ProductCategory {
   $createdAt?: string;    // ISO date string
   $databaseId?: string;
   $id?: string;
-  $permissions?: String[];   // Adjust type if permissions are structured
+  $permissions?: string[];   // Adjust type if permissions are structured
   $updatedAt?: string;    // ISO date string
   title: string;
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React  from 'react';
 import { Card, CardContent } from "@/components/ui/card"
 import { MdOutlineFreeBreakfast ,MdLunchDining, } from 'react-icons/md';
 import { VeganIcon,Salad,  } from 'lucide-react';
@@ -15,20 +15,6 @@ import {
 import Autoplay from "embla-carousel-autoplay"
 import Link from 'next/link';
 import { Oval } from 'react-loader-spinner';
-
-interface Products {
-        approved: boolean;
-         product_cartegory: string;
-         product_condition: string;
-         product_description: string;
-         product_image: string[];
-         product_name: string;
-         product_owner_id: string;
-         product_price: string;
-         _creationTime: number;
-         _id: string;
-       }
-
 
 const MainHero = () => {
   const carousel = Autoplay({ delay: 10000 });

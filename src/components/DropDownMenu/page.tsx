@@ -9,10 +9,9 @@ interface DropDownMenuProps {
   isvisible: boolean;
   onClose: () => void;
 }
-interface Category extends ProductCategory {}
 
 const DropDownMenu: React.FC<DropDownMenuProps> = ({ isvisible, onClose,  }) => {
-        const [Categories, setCategories] = useState<Category[]>([])
+        const [Categories, setCategories] = useState<ProductCategory[]>([])
         const {categories} = useGetCategories()
 
 useEffect(()=>{

@@ -15,11 +15,13 @@ import { Carousel, CarouselContent, } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { usePathname } from 'next/navigation';
 import {useData} from  '../../app/DataContext';
-// import useGenerateEmbeddings from '@/hooks/useGenerateEmbeddings';
-// import useVectorSearch from '@/hooks/useVectorSearch';
+import useGetAllProducts from '@/hooks/useGetAllProducts';
+import { Product } from '@/lib/types';
+
 
 const Header = () => {
          const {data} = useData()
+           const { data: products, isLoading } = useGetAllProducts()
         const cartitem = useAppSelector(state => state.cart.items);
         const Cart = cartitem?.reduce((total, item) => total + (item.quantity || 0), 0)
         const [Hovered,setHovered] = useState(false)
@@ -28,11 +30,7 @@ const Header = () => {
          const [showlowerBar, setshowlowerBar] = useState(true)
         const [searchTerm, setSearchTerm] = useState('');
         
-        const [filteredProducts, setFilteredProducts] = useState([]);
-        
-        // const {Embed} = useGenerateEmbeddings();
-        // const vectorSearchHook = useVectorSearch();
-        // const vectorSearch = vectorSearchHook?.vectorSearch;
+        const [filteredProducts, setFilteredProducts] = useState<Product []>([]);
         const carousel = Autoplay({ delay: 6000})
 
         // const truncateString = (text: string, maxLength: number): string => {
@@ -63,38 +61,15 @@ const Header = () => {
         
 
   
-        // useEffect(() => {
-        //         const results = data.Products.product?.filter((product) =>
-        //           product.product_cartegory.toLowerCase().includes(searchTerm.toLowerCase())
-        //         );
-        //         if(results && results.length>0){
-        //                 setFilteredProducts(results);
-        //         }else
-        //         setFilteredProducts([]);
-                //  ============================================================
-                // VECTOR SEARCH IMPLEMENTATIOIN
-                // =============================================================
-                // const Search = async (search:string)=>{
-                //         // console.log("Searchresults :" , search)
-                //         const results = await Embed(search)
-                //         // console.log(results)
-                //         if(!results.success){
-                //                 setFilteredProducts([])
-                //                 return
-                //         }
-                //         const data = results.data
-                //         if (vectorSearch) {
-                //                const searchResults = await vectorSearch(data??[]);
-                //                setFilteredProducts(searchResults)
-                //         }
-
-                // }
-                // Search(searchTerm)
-                //  ============================================================
-                // VECTOR SEARCH IMPLEMENTATIOIN
-                // =============================================================
-                
-        //       }, [searchTerm, data.Products.product]);
+        useEffect(() => {
+                const results = products?.filter((product) =>
+                  product.category.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                if(results && results.length>0){
+                        setFilteredProducts(results);
+                }else
+                setFilteredProducts([]);
+              }, [searchTerm, products]);
 
 
         const handleStickyNavbar = () => {
@@ -152,10 +127,6 @@ const Header = () => {
 
                 <div className='flex gap-8 ml-2 mr-4  md:ml-10  '>
                         <div className='flex gap-4  items-center ' >
-                        {/* <div className='flex hover:cursor-pointer' onMouseEnter={HandleComing} onMouseLeave={()=>setcomingSoon(false)} > {comingSoon
-                        ?(<h1 className=" hidden md:flex whitespace-nowrap text-gold font-bold overflow-hidden text-ellipsis">Coming Soon</h1>)
-                        :(<h1 className=" hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Mobile App</h1>)}
-                        </div> */}
                        
                         </div>
                         <div className="flex items-center gap-2 py-1 hover:cursor-pointer">

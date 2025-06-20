@@ -1,5 +1,4 @@
 "use client"
-import { useState } from "react"
 import AccountManagement from "@/components/UserProfile/Profile"
 
 const Profile=()=> {

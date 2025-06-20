@@ -1,7 +1,6 @@
 import { Account,Client, ID } from "appwrite";
 import { CreateAdminClient } from "./appwrite";
 import { Query } from "node-appwrite";
-import { Product } from "./types";
 const client = new Client()
 const account = new Account(client);
 
