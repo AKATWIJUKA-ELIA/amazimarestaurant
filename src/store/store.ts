@@ -10,7 +10,7 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist
 //         storage,
 //       };
       const cartPersistConfig = {
-        key: "cart",
+        key: "Cart",
         storage,
         };
 

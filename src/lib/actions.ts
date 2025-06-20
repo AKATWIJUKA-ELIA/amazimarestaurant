@@ -1,14 +1,14 @@
-import { Client, Account, ID } from "appwrite";
-import { NextResponse } from "next/server";
-
+import { Account,Client, ID } from "appwrite";
+import { CreateAdminClient } from "./appwrite";
+import { Query } from "node-appwrite";
 const client = new Client()
-    .setEndpoint(process.env.NEXT_PUBLIC_API_END_POINT || "") // Your API Endpoint
-    .setProject(process.env.NEXT_PUBLIC_PROJECT_ID ||"");                 // Your project ID
-
 const account = new Account(client);
+
+const  {databases} = CreateAdminClient();
+
 export async function CreateUser(username: string, email: string, password: string,phoneNumber: string) {
 try{
-        await account.deleteSession("current"); 
+        await account.deleteSession("appwrite-session"); 
         const user = await account.create(
                 ID.unique(),
                 email,
@@ -18,40 +18,117 @@ try{
 await account.createEmailPasswordSession(email, password);
 await account.updatePhone(phoneNumber,password);
 
-return NextResponse.json({ success: true, message:  `User${user.name} was created Successfully` }, { status: 200 });
 }catch (error) {
         console.log("Error creating user:", error);
-    return NextResponse.json({ success: false, message: error instanceof Error ? error.message : "Unknown error" }, { status: 400 });
 }
 }
 
-export async function AuthenticateUser(email: string, password: string) {
-        
+export default async function getCategories(){
         try {
-                const session= await account.createEmailPasswordSession(email, password);
-                const user = await account.get();
-                console.log("user is", user);
-                return NextResponse.json({ success: true, message: `Login successful`, status:200 });
+                const response = await databases.listDocuments(
+                        process.env.NEXT_PUBLIC_DATABASE_ID || "",
+                        process.env.NEXT_PUBLIC_CATEGORIES_COLLECTION_ID || ""
+                );
+                // console.log("Fetched categories:", response.documents);
+                return response.documents;
         } catch (error) {
-                console.log("Error authenticating user:", error);
-                return NextResponse.json({ success: false, message: error instanceof Error ? error.message : "Internal Server Error" ,status: 500});
-                        }
+                console.error("Error fetching categories:", error);
+                throw error;
+        }
+} 
+
+export async function SubscribeToNewsletter(email: string) {
+
+    try {
+        const emailExists = await databases.listDocuments(
+                process.env.NEXT_PUBLIC_DATABASE_ID || "",
+                process.env.NEXT_PUBLIC_NEWSLETTER_COLLECTION_ID || "",
+                [Query.equal("email", email)]
+        )
+        if (emailExists.documents.length > 0) {
+            console.log("Email already subscribed:", email);
+            return {
+                success: false,
+                message: "Email already subscribed",
+                status: 409
+            }
+        }
+        await databases.createDocument(
+            process.env.NEXT_PUBLIC_DATABASE_ID || "",
+            process.env.NEXT_PUBLIC_NEWSLETTER_COLLECTION_ID || "",
+            ID.unique(),
+            {email: email},
+        );
+        return {
+                success: true,
+                message: "Subscription successful",
+                status: 200
+        };
+    } catch (error) {
+        console.error("Error subscribing to newsletter:", error);
+        return {
+            success: false,
+            message: "Subscription failed",
+            status: 500
+        };
+    }
 }
-export async function getCurrentUser() {
-  try {
-    const user = await account.get();
-    return user; 
-  } catch (error) {
-    // Not logged in or session expired
-    return null;
-  }
+
+export async function getAllProducts(){
+        try {
+                const response = await databases.listDocuments(
+                        process.env.NEXT_PUBLIC_DATABASE_ID || "",
+                        process.env.NEXT_PUBLIC_PRODUCTS_COLLECTION_ID || ""
+                );
+                console.log("Fetched products:", response.documents);
+                return response.documents.map((product: any) => ({
+                        id: product.$id,
+                        title:product.title,
+                        description: product.description,
+                        category: product.category, 
+                        price: parseFloat(product.price) || 0,
+                        image: product.image,
+                }));
+        } catch (error) {
+                console.error("Error fetching products:", error);
+                throw error;
+        }
 }
-export async function LogoutUser() {
-  try {
-    await account.deleteSession("current");
-    return NextResponse.json({ success: true, message: "Logout successful" }, { status: 200 });
-  } catch (error) {
-    console.error("Error logging out:", error);
-    return NextResponse.json({ success: false, message: "Logout failed" }, { status: 500 });
-  }
+
+export async function getProductById(productId: string) {
+    try {
+        const response = await databases.getDocument(
+            process.env.NEXT_PUBLIC_DATABASE_ID || "",
+            process.env.NEXT_PUBLIC_PRODUCTS_COLLECTION_ID || "",
+            productId
+        );
+        return {
+            id: response.$id,
+            title: response.title,
+            description: response.description,
+            category: response.category,
+            price: parseFloat(response.price) || 0,
+            image: response.image,
+        };
+    } catch (error) {
+        console.error("Error fetching product by ID:", error);
+        throw error;
+    }
+}
+
+export async function getProductsByIds( ids: string[]) {
+        const response = await databases.listDocuments(
+            process.env.NEXT_PUBLIC_DATABASE_ID || "",
+            process.env.NEXT_PUBLIC_PRODUCTS_COLLECTION_ID || "",
+            [Query.equal("$id", ids)]
+        );
+        return response.documents.map((product: any) => ({
+            id: product.$id,
+            title: product.title,
+            description: product.description,
+            category: product.category,
+            price: parseFloat(product.price) || 0,
+            image: product.image,
+        }));
+    
 }

@@ -5,25 +5,23 @@ import { Separator } from "@/components/ui/separator"
 import { BsList } from "react-icons/bs";
 import { VscAccount } from "react-icons/vsc";
 import { CiShoppingCart } from "react-icons/ci";
-// import DropDownMenu from '../DropDownMenu/page';
+import DropDownMenu from '../DropDownMenu/page';
 import Link from 'next/link';
 import { useAppSelector } from '@/hooks';
 import { Input } from '../ui/input';
-// import SearchModel from '../SearchModel/page';
+import SearchModel from '../SearchModel/page';
 import { BiX } from 'react-icons/bi';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { usePathname } from 'next/navigation';
-import { getCurrentUser } from '@/lib/actions';
-import { AppwriteUser } from '@/lib/types';
-// import {useData} from  '../../app/DataContext';
+import {useData} from  '../../app/DataContext';
 // import useGenerateEmbeddings from '@/hooks/useGenerateEmbeddings';
 // import useVectorSearch from '@/hooks/useVectorSearch';
 
 const Header = () => {
-        
+         const {data} = useData()
+        const [user, setUser] = useState<any>(null);
         const cartitem = useAppSelector(state => state.cart.items);
-        const [User,setUser] = useState<AppwriteUser | null>(null);
         const Cart = cartitem?.reduce((total, item) => total + (item.quantity || 0), 0)
         const [Hovered,setHovered] = useState(false)
         const [sticky, setSticky] = useState(false);
@@ -31,14 +29,12 @@ const Header = () => {
          const [showlowerBar, setshowlowerBar] = useState(true)
         const [searchTerm, setSearchTerm] = useState('');
         
-        // const [filteredProducts, setFilteredProducts] = useState(data.Products.product || []);
+        const [filteredProducts, setFilteredProducts] = useState([]);
         const [UserDrawer, setUserDrawer] = useState(false);
         
-        // console.log("Data from DataContext :",data)
         // const {Embed} = useGenerateEmbeddings();
         // const vectorSearchHook = useVectorSearch();
         // const vectorSearch = vectorSearchHook?.vectorSearch;
-
         const carousel = Autoplay({ delay: 6000})
 
         const truncateString = (text: string, maxLength: number): string => {
@@ -53,14 +49,7 @@ const Header = () => {
                         setshowlowerBar(true)
                 }
         },[pathname])
-        useEffect(() => {
-                const fetchUser = async () => {
-                        const user = await getCurrentUser();
-                        setUser(user ? user : null);
-                        console.log("User from Header :", user)
-                };
-                fetchUser();
-        }, []);
+
         // console.log(pathname)
         const showDropDownMenu=()=>{
                 setHovered(true)
@@ -127,8 +116,8 @@ const Header = () => {
         //         flex    border border-gray-300 
   return (
     <>
-    <div className={` fixed  top-0 left-0 z-40 flex flex-col py-3 w-full  bg-white/70 opacity-95 text-black gap-1 dark:bg-dark dark:text-white
-            ${sticky ? "bg-transparent  !fixed !z-[9999] ! bg-opacity-100 shadow-sticky backdrop-blur-lg fade-in !transition ": "absolute" }`
+    <div className={` fixed  top-0 left-0 z-40 flex flex-col py-3 w-full  bg-white/70 opacity-95 text-black gap-1 dark:bg-gray-900 dark:text-white
+            ${sticky ? "bg-transparent  !fixed !z-[9999] ! bg-opacity-100 shadow-sticky backdrop-blur-lg  fades-in transition ": "absolute" }`
       }>
         <div className='flex w-[100%] gap-18  ' >
                 <div className='flex gap-6 md:ml-20   w-[70%] ' >
@@ -152,12 +141,9 @@ const Header = () => {
                                   { searchTerm.length>1 && (<BiX onClick={HandleClose} className="absolute hover:cursor-pointer border top-[16%] right-[41%]  bg-gray-100 text-dark text-3xl   rounded-lg"/>)}
                         </div>
 
-                        <div className='hidden md:flex gap-6  items-center text-2xl font-bold ' >
-                                <Link href="/menu">
-                                        <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Take Away</h1>
-                                </Link>
+                        <div className='hidden md:flex gap-6  items-center text-2xl font-bold  ' >
 
-                                <Link href="/about">
+                                <Link href="/offer">
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis  ">Offers</h1>
                                 </Link>
                                 <Link href="/about">
@@ -177,12 +163,12 @@ const Header = () => {
                         </div>
                         <div className="flex items-center gap-2 py-1 hover:cursor-pointer">
 
-                        {User ? (
+                        {data && data.User?.name? (
                                 <div className='flex' >
-                                        <div className="hidden lg:flex  bg-white hover:bg-gray-200 transition duration-100 border border-gray-300 rounded-3xl">
+                                        <div className="hidden lg:flex  bg-white dark:text-gray-900 hover:bg-gray-200 transition duration-100 border border-gray-300 rounded-3xl">
                                                 <div className='flex mt-1 font-sans dark:text-dark px-2 ' onClick={()=>setUserDrawer(true)} >
                                                         <Link href="/profile" className='flex font-bold   ' >
-                                                        {User.name}
+                                                        {data?.User?.name}
                                                         </Link>
                                                 </div>
                                                 <div className='flex rounded-full' >
@@ -247,7 +233,7 @@ const Header = () => {
         <div className='flex ml-5  h-30 items-center md:ml-32  ' >
                 
         <div className=' hidden md:flex items-center flex-nowrap gap-4 ' >
-                <div className=' gap-6  items-center text-2xl font-bold ' >
+                <div className=' gap-6  items-center text-2xl font-bold ' onMouseOver={()=>showDropDownMenu()} >
                                 <Link href="/menu" className='flex gap-2 items-center ' >
                                 <BsList  />
                                         <h1 className="hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Our Menu</h1>
@@ -266,7 +252,7 @@ const Header = () => {
                                         PLACE YOUR ODER NOW
                                         </Link>
                                 </h1>
-                                <h1 className=' flex text-center text-gray-900 '>
+                                <h1 className=' flex text-center dark:text-white text-gray-900 '>
                                 Deliveries are now Available around Kampala
                                 </h1>
                         </div>
@@ -275,7 +261,7 @@ const Header = () => {
 
         
 <div className='hidden md:flex ml-5 gap-14'>
-  {User  ? (
+  {data  ? (
    <div>
 
    </div>
@@ -297,7 +283,7 @@ const Header = () => {
                         className="w-full max-w-full h-6 "
                         >
                         <CarouselContent className="w-full">
-                        { User ? (
+                        { user ? (
                                 <div></div>
                         ):(
                                 <div className='animate-pulse' />
@@ -315,8 +301,9 @@ const Header = () => {
 
 
     </div>
-    {/* {  searchTerm.length>1 ? (<SearchModel Focused={Focused} products={filteredProducts ||[]} onClose={HandleClose} />):("")}
-    {  UserDrawer ? (<UserModel  onClose={HandleClose} />):("")} */}
+    <DropDownMenu isvisible={Hovered} onClose={() => setHovered(false)} />
+   {  searchTerm.length>1 ? (<SearchModel Focused={Focused} products={filteredProducts ||[]} onClose={HandleClose} />):("")}
+  {/*    {  UserDrawer ? (<UserModel  onClose={HandleClose} />):("")} */}
     </>
   )
 }

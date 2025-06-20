@@ -3,13 +3,14 @@ import CircularMotionCarousel from "@/components/CircularMotion/page";
 
 export default function Home() {
   return (
-    <div className="flex  h-full  md:h-[742px] w-[742px] md:w-full  bg-white   "
-//      style={{ backgroundImage: `url("images/firstHero/hero.jpg")`,
+    <div className="flex  h-screen  w-full  bg-white/70   "
+//      style={{ backgroundImage: `url("images/wallp.jpg")`,
 //                         backgroundSize: 'cover',
 //                         backgroundPosition: 'center' }}
                         >
-        <div className="  -mt-[7%] h-auto w-full bg-  opacity-95" 
-        style={{ backdropFilter: 'blur(80px)' }}>
+        <div className="  w-full bg-white/30  " 
+        style={{ backdropFilter: 'blur(50px)' }}
+        >
                 <CircularMotionCarousel />
                 <MainHero />
         </div>

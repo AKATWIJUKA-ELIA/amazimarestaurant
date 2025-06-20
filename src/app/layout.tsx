@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./styles/styles.css";
 import Header from "@/components/Header/page";
 import ReduxProvider from "./ReduxProvider";
 import { DataProvider } from "./DataContext";
 import { ThemeProvider } from "@/components/theme-provider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ModeToggle } from "@/components/Dark-light/page";
+import ConditionalFooter from "@/components/ConditionalFooter/page"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +34,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+        style={{ backgroundImage: `url("images/wallp.jpg")`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center' }}
       >
         <GoogleOAuthProvider clientId={CLIENT_ID}>
         <ReduxProvider>
@@ -46,6 +51,7 @@ export default function RootLayout({
         <Header />
         {children}
         <ModeToggle />
+        <ConditionalFooter/>
         </DataProvider>
         </ThemeProvider> 
         </ReduxProvider>

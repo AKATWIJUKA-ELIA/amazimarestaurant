@@ -37,7 +37,7 @@ const LoginForm=({
                         },5000)
                         return
                 }
-                router.push('/')
+                router.push('/profile')
               
         }
 

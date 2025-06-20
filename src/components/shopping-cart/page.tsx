@@ -11,23 +11,11 @@ import useDeleteCart from "@/hooks/useDeleteCart"
 import useGetProductsByIds from "@/hooks/useGetProductsByIds";
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { Product } from "@/lib/types"
 
-interface Product {
-        total:number;
-         _id: string;
-        approved: boolean;
-         product_cartegory: string;
-         product_condition: string;
-         product_description: string;
-         product_image: string[];
-         product_name: string;
-         product_owner_id: string;
-         product_price: string;
-         _creationTime: number;
-       }
 
 const ShoppingCart= ()=> {
-        const cart = useAppSelector((state) => state.cart.items)
+        const cart = useAppSelector((state) => state.cart.items);
         const ReduceCart = useReduceCart()
         const IncreaseCart = useIncreaseCart()
         const Delete = useDeleteCart()
@@ -54,10 +42,10 @@ const ShoppingCart= ()=> {
         const Product = (products: Product[]) => {
                 return products.map((p) => ({
                     ...p, // Spread the existing product fields
-                    total: Number(p.product_price) * itemQuantity(p._id) // Add total field
+                    total: Number(p.price) * itemQuantity(p.id) // Add total field
                 }));
             };
-        const validProducts = products.filter((p): p is Product => p !== null);
+        const validProducts = products.filter((p) => p !== null);
         const NewProduct = Product(validProducts)
 
         const subtotal = () => {
@@ -128,13 +116,13 @@ const ShoppingCart= ()=> {
                                             wrapperClass=""
                                             />
             ): (NewProduct.map((item) => (
-          <div key={item._id} className="mb-6 pb-6 border-b border-gray-200">
+          <div key={item.id} className="mb-6 pb-6 border-b border-gray-200">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-shrink-0 w-32 h-32">
-              <Link href={`/product/${item._id}`}>
+              <Link href={`/product/${item.id}`}>
               <Image
-                src={item.product_image[0]} 
-                alt={item.product_name}
+                src={item.image || "/placeholder.svg?height=150&width=150"} 
+                alt={item.title}
                 width={150}
                 height={150}
                 className="object-contain"
@@ -143,27 +131,27 @@ const ShoppingCart= ()=> {
               </div>
 
               <div className="flex-grow">
-                <h2 className="text-lg font-medium">{item.product_name}</h2>
+                <h2 className="text-lg font-medium">{item.title}</h2>
                 {/* <p className="text-sm text-green-600 mt-1">{"In Stock" : "Out of Stock"}</p> */}
 
                 <div className="flex flex-wrap items-center gap-4 mt-3">
                   <div className="flex items-center border border-gray-300 rounded-full">
                     <button
                       className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-                      onClick={() => ReduceCart(item._id)}
+                      onClick={() => ReduceCart(item.id)}
                     >
                       <Minus className="h-3 w-3" />
                     </button>
-                    <span className="w-8 text-center">{HandleQuantity(item._id)}</span>
+                    <span className="w-8 text-center">{HandleQuantity(item.id)}</span>
                     <button
                       className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-                      onClick={() => IncreaseCart(item._id)}
+                      onClick={() => IncreaseCart(item.id)}
                     >
                       <Plus className="h-3 w-3" />
                     </button>
                   </div>
 
-                  <button className="text-sm text-blue-500 hover:underline" onClick={() => Delete(item._id)}>
+                  <button className="text-sm text-blue-500 hover:underline" onClick={() => Delete(item.id)}>
                     Delete
                   </button>
 
@@ -173,7 +161,7 @@ const ShoppingCart= ()=> {
                     Compare with similar items
                   </span> */}
 
-                  <span className="text-sm text-blue-500 hover:underline cursor-pointer" onClick={() => handleShare(`https://shopcheap.vercel.app/product/${item._id}`,`${item.product_name}`)} >{Copied?"Link copied successfully":"Share "}</span>
+                  <span className="text-sm text-blue-500 hover:underline cursor-pointer" onClick={() => handleShare(`https://shopcheap.vercel.app/product/${item.id}`,`${item.title}`)} >{Copied?"Link copied successfully":"Share "}</span>
                 </div>
               </div>
 
@@ -195,7 +183,7 @@ const ShoppingCart= ()=> {
              ({itemCount} items) Shs:{subtotal().toFixed(2)}
           </div>
 
-          <Button className="w-full bg-gold hover:bg-yellow-500 text-dark font-medium rounded-full">
+          <Button className="w-full bg-gold border hover:bg-yellow-500 text-dark font-medium rounded-full">
             Proceed to checkout
           </Button>
         </div>
