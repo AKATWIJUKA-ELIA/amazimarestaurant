@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card"
 import { MdOutlineFreeBreakfast ,MdLunchDining, } from 'react-icons/md';
-import { VeganIcon,Salad, LucideVegan } from 'lucide-react';
+import { VeganIcon,Salad,  } from 'lucide-react';
 import { GiFruitTree } from "react-icons/gi";
 
 import {
@@ -31,9 +31,7 @@ interface Products {
 
 
 const MainHero = () => {
-  const carousel1 = Autoplay({ delay: 9000 });
   const carousel = Autoplay({ delay: 10000 });
-  const [products, setproducts] = useState<Products[]>([]);
   const images = [
                 {
                 name:"Break",

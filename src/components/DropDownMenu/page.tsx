@@ -2,7 +2,6 @@ import React, {  useEffect, useState } from 'react';
 import Link from "next/link";
 import { BiX } from 'react-icons/bi';
 import useGetCategories from '@/hooks/useGetCategories';
-import Image from 'next/image';
 import { Oval } from 'react-loader-spinner';
 import { ProductCategory } from '@/lib/types';
 
@@ -15,8 +14,6 @@ interface Category extends ProductCategory {}
 const DropDownMenu: React.FC<DropDownMenuProps> = ({ isvisible, onClose,  }) => {
         const [Categories, setCategories] = useState<Category[]>([])
         const {categories} = useGetCategories()
-        const related:any[] = []
-        console.log("categories",categories)
 
 useEffect(()=>{
         if (categories && Array.isArray(categories)) {
@@ -25,10 +22,9 @@ useEffect(()=>{
                 setCategories([])
         }
 }, [categories])
-const HandleChange =(cart:string)=>{
-        // setCategories([cart])
-}
+
       if (!isvisible) return null;
+
 
   return (
       <>
@@ -67,11 +63,19 @@ const HandleChange =(cart:string)=>{
                                                 {Categories.length > 0 ? (Categories.map((category, _id ) =>
                                                 <div key={_id} className=" cursor-pointer mr-2  p-2 slider slide--fast dark:text-black hover:bg-gray-100 dark:hover:bg-gray-300 rounded-lg ">
 
-                                                <Link href={`/category/${encodeURIComponent(category.title)}`}  onMouseOver={()=>{HandleChange(category.title)}} onClick={onClose}>
+                                                <Link href={`/category/${encodeURIComponent(category.title)}`}   onClick={onClose}>
                                                 <h1   className='animated   main '  > <span id='main' className='animated current   '>{category.title}</span></h1>
                                                 </Link>
                                                 </div>
-                                        )):(<div className="vertical-line ml-2  fade-in "  > Loading . . .  </div>)}
+                                        )):(<div className="vertical-line ml-2  fade-in "  >
+                                                <Oval
+                                                        visible={true}
+                                                        height="30"
+                                                        width="30"
+                                                        color="#0000FF"
+                                                        secondaryColor="#FFD700"
+                                                        ariaLabel="oval-loading"/>
+                                                 Loading . . .  </div>)}
                                         </div>
                                 
                                 

@@ -76,7 +76,6 @@ export default function CircularMotionCarousel() {
   const displayProducts = products && products.length > 0 ? products : carouselItems
   const itemCount = displayProducts.length
   const radius = 400 // Distance from center
-  const mobileradius = 300
   const angleStep = (2 * Math.PI) / itemCount
 
   useEffect(() => {

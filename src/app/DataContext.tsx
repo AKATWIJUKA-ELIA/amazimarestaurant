@@ -1,12 +1,9 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+import React, { createContext, useContext, useState, useEffect, } from "react";
 import { AppwriteUser } from "@/lib/types";
 import useGetCurrentUser from "@/hooks/useGetCurrentUser";
 import { usePathname } from 'next/navigation';
 
-interface User {
-  User: AppwriteUser | null;
-}
 
 const DataContext = createContext<{
   data: { User: AppwriteUser | null };
@@ -21,16 +18,6 @@ export const DataProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         const { CurrentUser } = useGetCurrentUser();
         const pathname = usePathname()
 
-        // const useLimitedEffect = (callback: () => void, limit: number) => {
-        //         const countRef = useRef(0);
-
-//   useEffect(() => {
-//     if (countRef.current < limit) {
-//       callback();
-//       countRef.current += 1;
-//     }
-//   });
-// };
 
   useEffect(() => {
     // Fetch current user from Appwrite on mount
