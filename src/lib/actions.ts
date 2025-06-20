@@ -9,7 +9,7 @@ const  {databases} = CreateAdminClient();
 export async function CreateUser(username: string, email: string, password: string,phoneNumber: string) {
 try{
         await account.deleteSession("appwrite-session"); 
-        const user = await account.create(
+        await account.create(
                 ID.unique(),
                 email,
                 password,
@@ -30,7 +30,9 @@ export default async function getCategories(){
                         process.env.NEXT_PUBLIC_CATEGORIES_COLLECTION_ID || ""
                 );
                 // console.log("Fetched categories:", response.documents);
-                return response.documents;
+                return response.documents.map((category) => ({
+                        id: category.$id,               
+                        title: category.title,}))
         } catch (error) {
                 console.error("Error fetching categories:", error);
                 throw error;
@@ -81,7 +83,7 @@ export async function getAllProducts(){
                         process.env.NEXT_PUBLIC_PRODUCTS_COLLECTION_ID || ""
                 );
                 console.log("Fetched products:", response.documents);
-                return response.documents.map((product: any) => ({
+                return response.documents.map((product) => ({
                         id: product.$id,
                         title:product.title,
                         description: product.description,
@@ -122,7 +124,7 @@ export async function getProductsByIds( ids: string[]) {
             process.env.NEXT_PUBLIC_PRODUCTS_COLLECTION_ID || "",
             [Query.equal("$id", ids)]
         );
-        return response.documents.map((product: any) => ({
+        return response.documents.map((product) => ({
             id: product.$id,
             title: product.title,
             description: product.description,

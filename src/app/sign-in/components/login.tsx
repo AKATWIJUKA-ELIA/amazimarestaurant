@@ -8,16 +8,16 @@ import { useState } from "react";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import useAuthenticate from "@/hooks/useAuthenticate"
-import useAuthByGoogle from "@/hooks/useAuthByGoogle"
+// import useAuthByGoogle from "@/hooks/useAuthByGoogle"
 import { useRouter } from "next/navigation";
-import { GoogleLogin,CredentialResponse } from "@react-oauth/google"
+// import { GoogleLogin,CredentialResponse } from "@react-oauth/google"
 
 
 const LoginForm=({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">)=>{
-        const {AuthenticateByGoogle} = useAuthByGoogle()
+        // const {AuthenticateByGoogle} = useAuthByGoogle()
         const {Authenticate} = useAuthenticate()
         const[IsSubmitting,setIsSubmitting] = useState(false)
         const[SubmittingError,setSubmittingError] = useState("")
@@ -28,18 +28,18 @@ const LoginForm=({
 
         const router = useRouter();
 
-        const HandleGoogleLogin= async (response:CredentialResponse)=>{
-                const AuthRes = await AuthenticateByGoogle(response)
-                if(!AuthRes.success){
-                        setSubmittingError(AuthRes.message)
-                        setTimeout(()=>{
-                                setSubmittingError("")
-                        },5000)
-                        return
-                }
-                router.push('/profile')
+        // const HandleGoogleLogin= async (response:CredentialResponse)=>{
+        //         const AuthRes = await AuthenticateByGoogle(response)
+        //         if(!AuthRes.success){
+        //                 setSubmittingError(AuthRes.message)
+        //                 setTimeout(()=>{
+        //                         setSubmittingError("")
+        //                 },5000)
+        //                 return
+        //         }
+        //         router.push('/profile')
               
-        }
+        // }
 
                 const HandleView = ()=>{
                         setview(true)
@@ -136,9 +136,9 @@ const LoginForm=({
         </div>
 
 
-        <div className="flex justify-center mt-2">
+        {/* <div className="flex justify-center mt-2">
           <GoogleLogin theme="outline" text="continue_with" onSuccess={(response) => {HandleGoogleLogin(response)}} onError={() => {router.push("/sign-up")}} />
-        </div>
+        </div> */}
       </div>
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}

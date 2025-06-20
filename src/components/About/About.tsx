@@ -1,43 +1,10 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { PiCookingPot } from "react-icons/pi";
 import { MdDeliveryDining } from "react-icons/md";
-import { MapPin, Clock, Phone, Mail, Award, Heart, Users, ChefHat, Star, Calendar } from "lucide-react"
+import { MapPin, Clock, Phone, Mail, ChefHat,Calendar } from "lucide-react"
 import Image from "next/image"
-
-const teamMembers = [
-  {
-    name: "Marco Rossi",
-    role: "Head Chef & Owner",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "With 20 years of culinary experience, Marco brings authentic Italian flavors to every dish.",
-    specialties: ["Pasta", "Risotto", "Traditional Sauces"],
-  },
-  {
-    name: "Sofia Martinez",
-    role: "Sous Chef",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Sofia's creative approach to modern Italian cuisine has earned her recognition across the city.",
-    specialties: ["Seafood", "Desserts", "Wine Pairing"],
-  },
-  {
-    name: "Giuseppe Bianchi",
-    role: "Pizza Master",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Giuseppe learned the art of pizza making in Naples and brings authentic techniques to our kitchen.",
-    specialties: ["Wood-fired Pizza", "Dough Making", "Traditional Toppings"],
-  },
-  {
-    name: "Elena Conti",
-    role: "Pastry Chef",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Elena creates exquisite desserts that perfectly complement our Italian dining experience.",
-    specialties: ["Tiramisu", "Gelato", "Italian Pastries"],
-  },
-]
 
 const values = [
   {

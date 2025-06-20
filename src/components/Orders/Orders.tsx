@@ -4,12 +4,10 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import {
   Dialog,
   DialogContent,
@@ -18,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, Minus, ShoppingCart, Star, Clock, Users } from "lucide-react"
+import { Plus, Minus, Star, Clock, Users } from "lucide-react"
 import Image from "next/image"
 
 interface MenuItem {
@@ -263,13 +261,8 @@ export default function CustomOrders() {
     setSelectedItem(null)
   }
 
-  const removeFromCart = (itemId: string) => {
-    setCart(cart.filter((item) => item.id !== itemId))
-  }
 
-  const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.totalPrice, 0)
-  }
+
 
   const handleToppingChange = (toppingName: string, checked: boolean) => {
     if (checked) {

@@ -1,4 +1,5 @@
 import { Account,Client,Databases,Storage } from "node-appwrite";
+import { NextRequest } from "next/server";
 
 const CreateAdminClient = () => {
     const client = new Client()
@@ -18,7 +19,7 @@ const CreateAdminClient = () => {
     },
     };
 }
-const createSessionClient = async(request: any) => {
+const createSessionClient = async(request: NextRequest) => {
     const client = new Client()
         .setEndpoint(process.env.NEXT_PUBLIC_API_END_POINT || "") // Your API Endpoint
         .setProject(process.env.NEXT_PUBLIC_PROJECT_ID || ""); // Your project ID

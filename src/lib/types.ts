@@ -11,19 +11,19 @@ export type AppwriteUser = {
   passwordUpdate: string;
   phone: string;
   phoneVerification: boolean;
-  prefs: Record<string, any>;
+  prefs: Record<string, string>;
   registration: string;
   status: boolean;
-  targets: any[]; // You can specify a more precise type if you know the shape of objects in targets
+  targets: string[]; // You can specify a more precise type if you know the shape of objects in targets
 };
 
 export interface ProductCategory {
-  $collectionId: string;
-  $createdAt: string;    // ISO date string
-  $databaseId: string;
-  $id: string;
-  $permissions: any[];   // Adjust type if permissions are structured
-  $updatedAt: string;    // ISO date string
+  $collectionId?: string;
+  $createdAt?: string;    // ISO date string
+  $databaseId?: string;
+  $id?: string;
+  $permissions?: string[];   // Adjust type if permissions are structured
+  $updatedAt?: string;    // ISO date string
   title: string;
 }
 export interface Product {

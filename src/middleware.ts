@@ -7,13 +7,13 @@ const isProtected = [
         '/profile',
 ]
 const publicRoutes = ['/sign-in', '/sign-up']
-const RoleProtected = ['/administrator(.*)'];
+// const RoleProtected = ['/administrator(.*)'];
 const Middleware = async (req: NextRequest) => {
         
         const path = req.nextUrl.pathname
         const isProtectedPath = isProtected.includes(path)
         const isPublicRoute = publicRoutes.includes(path)
-        const isRoleProtected = RoleProtected.some((pattern) => new RegExp(pattern).test(path));
+        // const isRoleProtected = RoleProtected.some((pattern) => new RegExp(pattern).test(path));
 
         const session = (await cookies()).get("appwrite-session")?.value
         // console.log("session",cookie)
