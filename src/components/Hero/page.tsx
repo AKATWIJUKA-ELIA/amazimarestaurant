@@ -76,14 +76,16 @@ const MainHero = () => {
           <CardContent className="relative  bg-transparent flex  items-center justify-center p-6 h-20 w-20 overflow-hidden  ">
             {/* Image */}
             <div className='flex flex-col justify-center hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-400  p-2 rounded-2xl transition duration-200 hover:cursor-pointer shadow dark:shadow-xl    '>
-                <Link href={`/category/${product.name}`} className='flex justify-center' >
+                <Link href={`/category/${product.name}`} className='flex flex-col items-center justify-center' >
               <div className='flex'>
                 {<product.icon/>}
               </div>
-            </Link>
-            <div className='flex'>
+
+              <div className='flex'>
                 <h1 className='flex z-50'>{product.name}</h1>
             </div>
+            </Link>
+            
             </div>
 
           </CardContent>

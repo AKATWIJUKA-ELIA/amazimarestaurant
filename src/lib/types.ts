@@ -26,3 +26,11 @@ export interface ProductCategory {
   $updatedAt: string;    // ISO date string
   title: string;
 }
+export interface Product {
+        title: string;
+        description: string;
+        price: number;
+        category: string;
+        image: string;
+        id: string;
+}

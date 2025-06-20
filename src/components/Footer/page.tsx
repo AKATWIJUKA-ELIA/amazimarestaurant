@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowRight } from "lucide-react"
 import { useSendMail } from "@/hooks/useSendMail"
-// import useAddEmail from "@/hooks/useAddEmail"
+import useAddEmail from "@/hooks/useAddEmail"
 import { useState } from "react"
 
 export function Footer() {
@@ -16,7 +16,7 @@ export function Footer() {
   const [submitted,setsubmitted] = useState(false)
    const [ErrorMailMessage, setErrorMailMessage ] = useState<string>('')
   const {sendEmail}  = useSendMail()
-//   const { save } = useAddEmail();
+  const { save } = useAddEmail();
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setuseremail(e.target.value) 
@@ -30,17 +30,17 @@ export function Footer() {
       e.preventDefault()
       setIsSubmitting(true)
       
-        // const saveEmail = await save(useremail)
+        const saveEmail = await save(useremail)
 
-// if ( !saveEmail.success ) {
-//         setIsSubmitting(false)
-//          setErrorMailMessage(saveEmail.error)
-//          setTimeout(()=>{
-//                 setErrorMailMessage('')
-//          },4000)
-//          cleanForm()
-//     return            
-// }
+if ( !saveEmail.success ) {
+        setIsSubmitting(false)
+         setErrorMailMessage(saveEmail.message || "An error occurred while subscribing. Please try again later.")
+         setTimeout(()=>{
+                setErrorMailMessage('')
+         },4000)
+         cleanForm()
+    return            
+}
 try {
         const html = `
         <!DOCTYPE html>
@@ -133,7 +133,7 @@ setTimeout(() => {
         cleanForm()
       }
     }
-//   console.log(useremail)
+
 
   return (
         <footer className="bg-white [w-100%]  dark:bg-gray-900 "

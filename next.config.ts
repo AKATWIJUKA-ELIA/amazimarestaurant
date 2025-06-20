@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
                     },
                     {
                         protocol: 'https',
-                        hostname: 'www.bootdey.com',
+                        hostname: 'fra.cloud.appwrite.io',
                         pathname: '/**',
                       },
                       {

@@ -302,7 +302,7 @@ export default function CustomOrders() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between mt-52 items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Custom Orders</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Your Current  Orders</h1>
               <p className="text-gray-600 mt-1">Customize your perfect meal</p>
             </div>
           </div>
