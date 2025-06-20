@@ -21,7 +21,7 @@ import { Product } from '@/lib/types';
 
 const Header = () => {
          const {data} = useData()
-           const { data: products, isLoading } = useGetAllProducts()
+           const { data: products,  } = useGetAllProducts()
         const cartitem = useAppSelector(state => state.cart.items);
         const Cart = cartitem?.reduce((total, item) => total + (item.quantity || 0), 0)
         const [Hovered,setHovered] = useState(false)
