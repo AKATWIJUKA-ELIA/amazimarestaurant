@@ -2,13 +2,14 @@ import { Account,Client, ID } from "appwrite";
 import { CreateAdminClient } from "./appwrite";
 import { Query } from "node-appwrite";
 const client = new Client()
+        .setEndpoint(process.env.NEXT_PUBLIC_API_END_POINT || "") 
+        .setProject(process.env.NEXT_PUBLIC_PROJECT_ID || "")
 const account = new Account(client);
 
 const  {databases} = CreateAdminClient();
 
 export async function CreateUser(username: string, email: string, password: string,phoneNumber: string) {
 try{
-        await account.deleteSession("appwrite-session"); 
         await account.create(
                 ID.unique(),
                 email,
@@ -17,6 +18,7 @@ try{
         );
 await account.createEmailPasswordSession(email, password);
 await account.updatePhone(phoneNumber,password);
+return {success: true,message: "User created successfully"};
 
 }catch (error) {
         console.log("Error creating user:", error);

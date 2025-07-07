@@ -203,7 +203,6 @@ const handlePassword2Change = (e: React.ChangeEvent<HTMLInputElement>)=>{
 
                 const updateFormData = async () => {
                         setformdata({
-                                ...formdata,
                                 username: username,
                                 email: email,
                                 phoneNumber: phoneNumber,
@@ -212,7 +211,7 @@ const handlePassword2Change = (e: React.ChangeEvent<HTMLInputElement>)=>{
                 };
 
                 updateFormData();
-        }, [password1, password2, username, email, phoneNumber,formdata]);
+        }, [password1, password2, username, email, phoneNumber,]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                   e.preventDefault();

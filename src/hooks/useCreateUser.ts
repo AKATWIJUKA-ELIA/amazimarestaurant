@@ -11,12 +11,12 @@ const useCreateUser = () => {
 
         const createUser = async (User:user) =>{
                 try{
-                const response = await CreateUser(User.username, User.email, User.passwordHash, User.phoneNumber);
-                const res = await response.json();
-                 if(!res.success){
-                        return NextResponse.json({ success: false, message: res.message }, { status: 400 });
+                const res = await CreateUser(User.username, User.email, User.passwordHash, User.phoneNumber);
+                
+                 if(!res?.success){
+                        return NextResponse.json({ success: false, message: res?.message }, { status: 400 });
                 }
-                return NextResponse.json({ success: true, message:res.message }, { status: 200 });
+                return NextResponse.json({ success: true, message:res?.message }, { status: 200 });
                 }catch(error){
                         return NextResponse.json( { success: false, message: `${error}Unexpected Error try Again later` });
                         

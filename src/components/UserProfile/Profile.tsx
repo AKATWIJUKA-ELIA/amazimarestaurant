@@ -12,6 +12,7 @@ import useCreateUser from "@/hooks/useCreateUser"
 import {LogOutIcon} from "lucide-react";
 import {useData} from  '../../app/DataContext';
 import useLogout from "@/hooks/useLogout"
+import useClearCart from "@/hooks/useClearCart"
 
 interface user {
         username: string,
@@ -62,7 +63,9 @@ const AccountManagement = ({
         const { sendEmail, } = useSendMail();
         const  {CheckUsername} = useValidateUsername()
         const admin = process.env.NEXT_PUBLIC_ADMIN
-
+        const ClearCart =()=>{
+                return useClearCart();
+        }
         // const logout =()=>{
         //         const logout = useLogout();
         // }
@@ -305,7 +308,7 @@ clearForm()
                  <div className="flex flex-col gap-4 mt-34">
                        <Button
                         className="w-full hover:cursor-pointer hover:bg-red-400  "
-                        onClick={()=>{logout(); setData({ User: null });}}
+                        onClick={()=>{logout(); setData({ User: null }); ClearCart()} }
                         >
                                 <LogOutIcon />
                                 {isSubmitting?"Submitting":"Logout"}
