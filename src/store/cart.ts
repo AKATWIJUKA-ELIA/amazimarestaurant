@@ -58,8 +58,11 @@ const CartSlice = createSlice({
                         state.items.splice(index, 1);
                         // console.log("Current State",state.items)
     }
+                },
+                ClearCart(state, ){
+                        state.items = [];
                 }
         }
 })
-export const {addToCart,ReduceCart,IncreaseCart,DeleteCart } = CartSlice.actions
+export const {addToCart,ReduceCart,IncreaseCart,DeleteCart,ClearCart } = CartSlice.actions
 export default CartSlice.reducer;

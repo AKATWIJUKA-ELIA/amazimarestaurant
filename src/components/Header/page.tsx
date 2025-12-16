@@ -11,16 +11,17 @@ import { useAppSelector } from '@/hooks';
 import { Input } from '../ui/input';
 import SearchModel from '../SearchModel/page';
 import { BiX } from 'react-icons/bi';
-import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
+import { Carousel, CarouselContent, } from '../ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { usePathname } from 'next/navigation';
 import {useData} from  '../../app/DataContext';
-// import useGenerateEmbeddings from '@/hooks/useGenerateEmbeddings';
-// import useVectorSearch from '@/hooks/useVectorSearch';
+import useGetAllProducts from '@/hooks/useGetAllProducts';
+import { Product } from '@/lib/types';
+
 
 const Header = () => {
          const {data} = useData()
-        const [user, setUser] = useState<any>(null);
+           const { data: products,  } = useGetAllProducts()
         const cartitem = useAppSelector(state => state.cart.items);
         const Cart = cartitem?.reduce((total, item) => total + (item.quantity || 0), 0)
         const [Hovered,setHovered] = useState(false)
@@ -29,17 +30,12 @@ const Header = () => {
          const [showlowerBar, setshowlowerBar] = useState(true)
         const [searchTerm, setSearchTerm] = useState('');
         
-        const [filteredProducts, setFilteredProducts] = useState([]);
-        const [UserDrawer, setUserDrawer] = useState(false);
-        
-        // const {Embed} = useGenerateEmbeddings();
-        // const vectorSearchHook = useVectorSearch();
-        // const vectorSearch = vectorSearchHook?.vectorSearch;
+        const [filteredProducts, setFilteredProducts] = useState<Product []>([]);
         const carousel = Autoplay({ delay: 6000})
 
-        const truncateString = (text: string, maxLength: number): string => {
-                return text.length > maxLength ? text.slice(0, maxLength) + " . . ." : text;
-              };
+        // const truncateString = (text: string, maxLength: number): string => {
+        //         return text.length > maxLength ? text.slice(0, maxLength) + " . . ." : text;
+        //       };
         const pathname = usePathname()
         useEffect(()=>{
                 if(pathname ==="/sign-up" || pathname === "/sign-in" || pathname==="/cart" || pathname === "/profile" || pathname.includes("administrator")){
@@ -61,43 +57,19 @@ const Header = () => {
                 setSearchTerm("")
                 setFocused(false)
                 forceBlur()
-                setUserDrawer(false)
         }
         
 
   
-        // useEffect(() => {
-        //         const results = data.Products.product?.filter((product) =>
-        //           product.product_cartegory.toLowerCase().includes(searchTerm.toLowerCase())
-        //         );
-        //         if(results && results.length>0){
-        //                 setFilteredProducts(results);
-        //         }else
-        //         setFilteredProducts([]);
-                //  ============================================================
-                // VECTOR SEARCH IMPLEMENTATIOIN
-                // =============================================================
-                // const Search = async (search:string)=>{
-                //         // console.log("Searchresults :" , search)
-                //         const results = await Embed(search)
-                //         // console.log(results)
-                //         if(!results.success){
-                //                 setFilteredProducts([])
-                //                 return
-                //         }
-                //         const data = results.data
-                //         if (vectorSearch) {
-                //                const searchResults = await vectorSearch(data??[]);
-                //                setFilteredProducts(searchResults)
-                //         }
-
-                // }
-                // Search(searchTerm)
-                //  ============================================================
-                // VECTOR SEARCH IMPLEMENTATIOIN
-                // =============================================================
-                
-        //       }, [searchTerm, data.Products.product]);
+        useEffect(() => {
+                const results = products?.filter((product) =>
+                  product.category.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                if(results && results.length>0){
+                        setFilteredProducts(results);
+                }else
+                setFilteredProducts([]);
+              }, [searchTerm, products]);
 
 
         const handleStickyNavbar = () => {
@@ -155,10 +127,6 @@ const Header = () => {
 
                 <div className='flex gap-8 ml-2 mr-4  md:ml-10  '>
                         <div className='flex gap-4  items-center ' >
-                        {/* <div className='flex hover:cursor-pointer' onMouseEnter={HandleComing} onMouseLeave={()=>setcomingSoon(false)} > {comingSoon
-                        ?(<h1 className=" hidden md:flex whitespace-nowrap text-gold font-bold overflow-hidden text-ellipsis">Coming Soon</h1>)
-                        :(<h1 className=" hidden md:flex whitespace-nowrap overflow-hidden text-ellipsis">Mobile App</h1>)}
-                        </div> */}
                        
                         </div>
                         <div className="flex items-center gap-2 py-1 hover:cursor-pointer">
@@ -166,7 +134,7 @@ const Header = () => {
                         {data && data.User?.name? (
                                 <div className='flex' >
                                         <div className="hidden lg:flex  bg-white dark:text-gray-900 hover:bg-gray-200 transition duration-100 border border-gray-300 rounded-3xl">
-                                                <div className='flex mt-1 font-sans dark:text-dark px-2 ' onClick={()=>setUserDrawer(true)} >
+                                                <div className='flex mt-1 font-sans dark:text-dark px-2 '>
                                                         <Link href="/profile" className='flex font-bold   ' >
                                                         {data?.User?.name}
                                                         </Link>
@@ -283,7 +251,7 @@ const Header = () => {
                         className="w-full max-w-full h-6 "
                         >
                         <CarouselContent className="w-full">
-                        { user ? (
+                        { data ? (
                                 <div></div>
                         ):(
                                 <div className='animate-pulse' />

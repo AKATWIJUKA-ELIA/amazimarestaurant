@@ -3,18 +3,14 @@ import {  NextResponse } from 'next/server';
 import {jwtDecode} from 'jwt-decode'
 import { CredentialResponse } from "@react-oauth/google"; 
 import { useSendMail } from './useSendMail';
+import { CreateUser } from '@/lib/actions';
+import { PasswordHash } from 'node-appwrite';
+import { randomBytes } from 'crypto';
 interface user {
         username: string,
         email: string,
         passwordHash: string,
         phoneNumber: string,
-        profilePicture:string,
-        isVerified: false,
-        role: string,
-        reset_token: "",
-        reset_token_expires:0,
-        updatedAt: 0,
-        lastLogin: 0,
 }
 interface DecodedToken {
   iss?: string;
@@ -30,6 +26,10 @@ interface DecodedToken {
   exp?: number;
   jti?: string;
 }
+function generatePassword(length = 8) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  return Array.from(randomBytes(length)).map(byte => chars[byte % chars.length]).join('');
+}
 
 const useSignUpWithGoogle =()=>{
         // const CreateUser = useMutation(api.users.CreateUser);
@@ -43,20 +43,14 @@ const useSignUpWithGoogle =()=>{
                                 throw new Error("Google credential is missing");
         }
                         const decoded = jwtDecode<DecodedToken>(token.credential);
+                        // console.log("Decoded token:", decoded);
                         const user:user = {
                                 username:decoded.name||"",
                                 email:decoded.email||"",
-                                profilePicture:decoded.picture||"",
-                                passwordHash:"",
-                                phoneNumber:"",
-                                isVerified:false,
-                                role:"user",
-                                reset_token:"",
-                                reset_token_expires:0,
-                                updatedAt:0,
-                                lastLogin:0,
+                                passwordHash:generatePassword(8),
+                                phoneNumber:"+256789012345",
                         } 
-                        const res = await CreateUser(user);
+                        const res = await CreateUser(user.username, user.email, user.passwordHash, user.phoneNumber);
                         const html = ` <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,8 +106,10 @@ const useSignUpWithGoogle =()=>{
   
 </div></a>
     <h2><strong>Welcome to ShopCheap - Thanks for Joining Us</strong></h2>
-    <h1 class="" style="color:black" >Hello, <span style="color:blue"> ${user.username} </span></h1>
+    <h1 class="" style="color:black" >Hello, <span style="color:blue"> ${user.username} use ${user.passwordHash} as your password \n
+    Remember to update you phoneNumber and Password </span></h1>
     <h3>Thank you for Joining  ShopCheap! We're thrilled to have you on board.
+
 
 Subscribe to Our NewsLetter to be the first to receive exclusive updates, tips, promotions, or industry insights. Expect valuable content delivered straight to your inbox .
 
@@ -133,8 +129,8 @@ https://shopcheap.vercel.app/</h3>
 
                         
                         // console.log("user :",user)
-                        if(!res.success){
-                    return NextResponse.json({ success: false, message: res.message }, { status: 400 });
+                        if(!res?.success){
+                    return NextResponse.json({ success: false, message: res?.message }, { status: 400 });
                         }
                         const userEmail =  sendEmail( `${user.email}`,"Welcome to ShopCheap", html)
                         const userEmailres = await (await userEmail).json()

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import getCategories from "@/lib/actions";
+import { ProductCategory } from "@/lib/types";
 
 const useGetCategories = () => {
-    const [categories, setCategories] = useState<any[]>([]);
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<null | Error>(null);
 
